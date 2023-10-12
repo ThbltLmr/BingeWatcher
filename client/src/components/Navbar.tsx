@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import { logout } from '../services/authService';
 
 export default function Navbar({auth}: {auth: boolean}) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -24,6 +25,7 @@ export default function Navbar({auth}: {auth: boolean}) {
 
   const handleCloseLogout = () => {
     handleClose();
+    logout();
   };
 
   return (

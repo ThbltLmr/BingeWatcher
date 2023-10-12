@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "../components/Navbar";
 import Typography from '@mui/material/Typography';
 import ExplanationCard from "../components/ExplanationCard";
@@ -30,7 +29,7 @@ export default function Homepage({auth}: {auth: boolean}) {
       </div>
       <div className="text-center w-100 mb-16">
         {!auth &&
-          <a href="/profile"><button className="bg-blue-500 hover:bg-blue-700 text-white font-light text-5xl py-4 px-10 rounded">Get started</button></a>
+          <a href="/login"><button className="bg-blue-500 hover:bg-blue-700 text-white font-light text-5xl py-4 px-10 rounded">Get started</button></a>
         }
         {auth &&
           <a href="/profile"><button className="bg-blue-500 hover:bg-blue-700 text-white font-light text-5xl py-4 px-10 rounded">Your shows</button></a>
@@ -38,7 +37,7 @@ export default function Homepage({auth}: {auth: boolean}) {
       </div>
       <div className="w-11/12 mx-auto flex justify-center">
         {cardContents.map((cardContent) => (
-          <ExplanationCard title={cardContent.title} content={cardContent.content} />
+          <ExplanationCard key={cardContent.title} title={cardContent.title} content={cardContent.content} />
         ))}
       </div>
     </div>
