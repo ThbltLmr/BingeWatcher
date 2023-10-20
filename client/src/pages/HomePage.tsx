@@ -14,7 +14,7 @@ export default function Homepage({auth}: {auth: boolean}) {
     },
     {
       title: "See show recommendations",
-      content: "Finished all your shows? Get recommendations for new shows based on your watchlist"
+      content: "Finished all your shows? Get recommendations based on your watchlist"
     }
   ]
 
