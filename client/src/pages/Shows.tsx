@@ -40,7 +40,7 @@ export default function Shows({auth}: {auth: boolean}){
       <div className="w-100 pt-16 mb-8 ms-8">
         <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Track all your favourite shows</Typography>
       </div>
-      <div className="ms-8">
+      <div className="m-8">
         <Carrousel shows={shows} />
       </div>
     </div>
