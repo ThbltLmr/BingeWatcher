@@ -26,6 +26,46 @@ export default function Shows({auth}: {auth: boolean}){
       posterURL: "src/assets/suits.jpeg",
       TMDBid: 4
     },
+    {
+      title: "Suits",
+      posterURL: "src/assets/suits.jpeg",
+      TMDBid: 5
+    },
+    {
+      title: "Suits",
+      posterURL: "src/assets/suits.jpeg",
+      TMDBid: 6
+    },
+    {
+      title: "Suits",
+      posterURL: "src/assets/suits.jpeg",
+      TMDBid: 7
+    },
+    {
+      title: "Suits",
+      posterURL: "src/assets/suits.jpeg",
+      TMDBid: 8
+    },
+    {
+      title: "Suits",
+      posterURL: "src/assets/suits.jpeg",
+      TMDBid: 9
+    },
+    {
+      title: "Suits",
+      posterURL: "src/assets/suits.jpeg",
+      TMDBid: 10
+    },
+    {
+      title: "Suits",
+      posterURL: "src/assets/suits.jpeg",
+      TMDBid: 11
+    },
+    {
+      title: "Suits",
+      posterURL: "src/assets/suits.jpeg",
+      TMDBid: 12
+    },
   ])
 
   if (!auth) {
