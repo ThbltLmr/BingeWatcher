@@ -6,10 +6,18 @@ import { Show } from './show.entity';
 export class ShowService {
   constructor(
     @Inject('SHOW_REPOSITORY')
-    private photoRepository: Repository<Show>,
+    private showRepository: Repository<Show>,
   ) {}
 
   async findAll(): Promise<Show[]> {
-    return this.photoRepository.find();
+    return this.showRepository.find();
+  }
+
+  async create(showData: any): Promise<Show> {
+    const show = new Show();
+    show.title = showData.title;
+    show.description = showData.description;
+    show.numberOfSeasons = showData.numberOfSeasons;
+    return this.showRepository.save(show);
   }
 }

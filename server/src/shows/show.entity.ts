@@ -6,7 +6,7 @@ export class Show {
   id: number;
 
   @Column({ length: 500 })
-  name: string;
+  title: string;
 
   @Column('text')
   description: string;
