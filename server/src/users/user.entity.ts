@@ -9,6 +9,6 @@ export class User {
   username: string;
 
   //TODO: hash password
-  @Column('text')
+  @Column()
   password: string;
 }
