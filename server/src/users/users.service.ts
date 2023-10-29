@@ -9,19 +9,6 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
-
   async findAll(): Promise<User[]> {
     return this.usersRepository.find();
   }
