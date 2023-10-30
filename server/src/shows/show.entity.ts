@@ -11,6 +11,9 @@ export class Show {
   @Column('text')
   description: string;
 
+  @Column('text', { nullable: true })
+  posterURL: string;
+
   @Column('int')
   numberOfSeasons: number;
 }

@@ -26,6 +26,7 @@ export class ShowService {
     show.title = showData.title;
     show.description = showData.description;
     show.numberOfSeasons = showData.numberOfSeasons;
+    show.posterURL = showData.posterURL;
     return this.showRepository.save(show);
   }
 
@@ -34,6 +35,7 @@ export class ShowService {
     show.title = showData.title;
     show.description = showData.description;
     show.numberOfSeasons = showData.numberOfSeasons;
+    show.posterURL = showData.posterURL;
     return this.showRepository.save(show);
   }
 
