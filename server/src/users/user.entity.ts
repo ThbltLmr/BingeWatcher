@@ -8,6 +8,9 @@ export class User {
   @Column({ length: 500 })
   username: string;
 
+  @Column()
+  email: string;
+
   //TODO: hash password
   @Column()
   password: string;
