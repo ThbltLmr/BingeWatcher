@@ -6,7 +6,7 @@ export class TMDBAPIController {
   constructor(readonly TMDBAPIservice: TMDBAPIService) {}
 
   @Get('search')
-  async searchShows(@Query() query: string) {
+  async searchShows(@Query('tv') query: string) {
     return this.TMDBAPIservice.searchShows(query);
   }
 }

@@ -5,9 +5,10 @@ import { ShowService } from './show.service';
 import { ShowsController } from './shows.controller';
 import { TMDBAPIService } from './show.tmdbapi.service';
 import { TMDBAPIController } from './shows.tmdbapi.controller';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, HttpModule],
   providers: [...showProviders, ShowService, TMDBAPIService],
   controllers: [ShowsController, TMDBAPIController],
 })
