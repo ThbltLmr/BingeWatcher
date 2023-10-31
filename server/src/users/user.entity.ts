@@ -8,7 +8,7 @@ export class User {
   @Column({ length: 500 })
   username: string;
 
-  @Column()
+  @Column({ nullable: true })
   email: string;
 
   //TODO: hash password
