@@ -11,7 +11,7 @@ import './App.css'
 import { useState } from 'react'
 
 function App() {
-  const [auth, setAuth] = useState(false)
+  const [auth, setAuth] = useState(true)
   function login(){}
   function logout(){}
 

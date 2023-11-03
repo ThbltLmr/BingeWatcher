@@ -1,7 +1,15 @@
-export default function Profile(){
+import { Navigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+
+export default function Profile({auth}: {auth: boolean}){
+  if (!auth) {
+    return(
+      <Navigate to="/login" replace={true} />
+    )
+  }
   return(
     <div>
-      Profile
+      <Navbar auth={auth}/>
     </div>
   )
 }
