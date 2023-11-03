@@ -15,13 +15,13 @@ export class Show {
   @Column('text', { nullable: true })
   posterURL: string;
 
-  @Column('int')
+  @Column('int', { nullable: true })
   numberOfSeasons: number;
 
-  @Column()
+  @Column({ nullable: true })
   tmdbId: number;
 
-  @Column()
+  @Column('text', { array: true, nullable: true })
   genres: string[];
 
   @OneToMany(() => WatchedShow, (watchedShow) => watchedShow.show)
