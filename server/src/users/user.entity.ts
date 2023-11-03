@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { WatchedShow } from 'src/watchedShows/WatchedShow.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class User {
@@ -14,4 +15,7 @@ export class User {
   //TODO: hash password
   @Column()
   password: string;
+
+  @OneToMany(() => WatchedShow, (watchedShow) => watchedShow.show)
+  public watchedShows: WatchedShow[];
 }

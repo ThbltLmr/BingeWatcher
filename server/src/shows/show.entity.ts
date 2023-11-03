@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { WatchedShow } from 'src/watchedShows/WatchedShow.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class Show {
@@ -16,4 +17,13 @@ export class Show {
 
   @Column('int')
   numberOfSeasons: number;
+
+  @Column()
+  tmdbId: number;
+
+  @Column()
+  genres: string[];
+
+  @OneToMany(() => WatchedShow, (watchedShow) => watchedShow.show)
+  public watchedShows: WatchedShow[];
 }
