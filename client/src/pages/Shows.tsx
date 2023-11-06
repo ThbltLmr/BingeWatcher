@@ -83,6 +83,7 @@ export default function Shows({auth, setAuth}: {auth: boolean, setAuth: Function
       <div className="m-8">
         <Carrousel shows={shows} />
       </div>
+      <a href="/addshow"><button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-light mx-2 text-3xl py-4 px-8 rounded">Add show</button></a>
     </div>
   )
 }

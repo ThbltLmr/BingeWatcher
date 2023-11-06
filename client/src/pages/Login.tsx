@@ -23,7 +23,10 @@ export default function Login({auth, setAuth}: {auth: boolean, setAuth: Function
           const username = e.currentTarget.username.value
           const password = e.currentTarget.password.value
           login(username, password)
-          if (localStorage.getItem('token') !== null) { setAuth(true) }
+          if (localStorage.getItem('token') !== null) {
+            setAuth(true);
+            // TODO: get user shows from backend
+           }
         }}>
           <div className="flex flex-col text-left">
             <label className="mt-3 mb-2 mx-2 text-2xl" htmlFor="username">Username</label>
