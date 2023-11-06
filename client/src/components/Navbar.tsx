@@ -11,9 +11,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { logout } from '../services/authService';
 
-export default function Navbar({auth}: {auth: boolean}) {
+export default function Navbar({auth, setAuth}: {auth: boolean, setAuth: Function}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false)
+
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
     setOpen(true);
@@ -26,6 +27,7 @@ export default function Navbar({auth}: {auth: boolean}) {
   const handleCloseLogout = () => {
     handleClose();
     logout();
+    setAuth(false);
   };
 
   return (

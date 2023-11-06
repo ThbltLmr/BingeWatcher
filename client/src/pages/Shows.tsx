@@ -4,7 +4,7 @@ import Carrousel from "../components/Carrousel";
 import Typography from '@mui/material/Typography';
 import { useState } from "react";
 
-export default function Shows({auth}: {auth: boolean}){
+export default function Shows({auth, setAuth}: {auth: boolean, setAuth: Function}){
   const [shows, setShows] = useState([
     {
       title: "Suits",
@@ -76,7 +76,7 @@ export default function Shows({auth}: {auth: boolean}){
 
   return(
     <div>
-      <Navbar auth={auth}/>
+      <Navbar auth={auth} setAuth={setAuth}/>
       <div className="w-100 pt-16 mb-8 ms-8">
         <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Track all your favourite shows</Typography>
       </div>

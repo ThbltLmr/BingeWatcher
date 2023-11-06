@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-export default function Profile({auth}: {auth: boolean}){
+export default function Profile({auth, setAuth}: {auth: boolean, setAuth: Function}){
   if (!auth) {
     return(
       <Navigate to="/login" replace={true} />
@@ -9,7 +9,7 @@ export default function Profile({auth}: {auth: boolean}){
   }
   return(
     <div>
-      <Navbar auth={auth}/>
+      <Navbar auth={auth} setAuth={setAuth}/>
     </div>
   )
 }

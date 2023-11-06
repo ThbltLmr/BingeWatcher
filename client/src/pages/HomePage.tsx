@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 import Typography from '@mui/material/Typography';
 import ExplanationCard from "../components/ExplanationCard";
 
-export default function Homepage({auth}: {auth: boolean}) {
+export default function Homepage({auth, setAuth}: {auth: boolean, setAuth: Function}) {
   const cardContents = [
     {
       title: "Track your favourite shows",
@@ -20,7 +20,7 @@ export default function Homepage({auth}: {auth: boolean}) {
 
   return (
     <div>
-      <Navbar auth={auth}/>
+      <Navbar auth={auth} setAuth={setAuth}/>
       <div className="w-100 pt-16 text-center mb-8">
         <Typography variant="h1" component="div" sx={{ flexGrow: 1 }}>Welcome to BingeWatcher</Typography>
       </div>
