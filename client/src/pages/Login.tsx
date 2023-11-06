@@ -7,7 +7,7 @@ export default function Login({auth, setAuth}: {auth: boolean, setAuth: Function
 
   if (auth) {
     return(
-      <Navigate to="/profile" replace={true} />
+      <Navigate to="/shows" replace={true} />
     )
   }
 
