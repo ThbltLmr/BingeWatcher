@@ -29,8 +29,8 @@ export default function Login({auth, setAuth}: {auth: boolean, setAuth: Function
             <label className="mt-3 mb-2 mx-2 text-2xl" htmlFor="username">Username</label>
             <input className="mx-2 text-2xl" type="text" name="username" id="username" />
             <label className="mt-3 mb-2 mx-2 text-2xl" htmlFor="password">Password</label>
-            <input className="mx-2 mb-6 text-2xl" type="password" name="password" id="password" />
-            <button type="submit" className="py-3 px-5 bg-white mt-5 w-fit self-center text-3xl font-semibold">Login</button>
+            <input className="mx-2 mb-8 text-2xl" type="password" name="password" id="password" />
+            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-light mx-2 text-3xl py-4 px-8 rounded">Log in</button>
           </div>
         </form>
       </div>
