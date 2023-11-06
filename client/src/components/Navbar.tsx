@@ -30,6 +30,11 @@ export default function Navbar({auth, setAuth}: {auth: boolean, setAuth: Functio
     setAuth(false);
   };
 
+  const navBarlogout = () => {
+    logout();
+    setAuth(false);
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -69,7 +74,7 @@ export default function Navbar({auth, setAuth}: {auth: boolean, setAuth: Functio
             BingeWatcher
           </Typography>
           {auth &&
-          <Button size="large" color="inherit">Logout</Button>
+          <Button size="large" color="inherit" onClick={navBarlogout}>Logout</Button>
           }
           {!auth &&
           <Link to="/login"><Button size="large" color="inherit">Login</Button></Link>
