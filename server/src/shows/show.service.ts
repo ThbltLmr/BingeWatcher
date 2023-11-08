@@ -1,12 +1,14 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Show } from './show.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ShowService {
   constructor(
     @Inject('SHOW_REPOSITORY')
     private showRepository: Repository<Show>,
+    private configService: ConfigService,
   ) {}
 
   async findAll(): Promise<Show[]> {
@@ -22,11 +24,19 @@ export class ShowService {
   }
 
   async create(showData: any): Promise<Show> {
+    if (
+      await this.showRepository.findOne({ where: { tmdbId: showData.tmdbId } })
+    ) {
+      throw new Error('Show already exists');
+    }
     const show = new Show();
     show.title = showData.title;
     show.description = showData.description;
     show.numberOfSeasons = showData.numberOfSeasons;
-    show.posterURL = showData.posterURL;
+    show.posterURL =
+      this.configService.get<string>('TMDB_API_IMAGE_URL') + showData.posterURL;
+    show.tmdbId = showData.tmdbId;
+    show.genres = showData.genres;
     return this.showRepository.save(show);
   }
 
