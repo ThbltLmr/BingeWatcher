@@ -4,12 +4,19 @@ import { login } from '../services/authService';
 import Navbar from "../components/Navbar";
 
 export default function Login({auth, setAuth}: {auth: boolean, setAuth: Function}){
-
   if (auth) {
     return(
       <Navigate to="/shows" replace={true} />
     )
   }
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const username = e.currentTarget.username.value
+    const password = e.currentTarget.password.value
+    login(username, password)
+    if (localStorage.getItem('token') !== null) {
+      setAuth(true);
+  }}
 
   return(
     <div>
@@ -18,16 +25,7 @@ export default function Login({auth, setAuth}: {auth: boolean, setAuth: Function
         <div className="mb-6">
           <Typography variant="h1" component="div" sx={{ flexGrow: 1, fontSize: '4em' }}>Log in</Typography>
         </div>
-        <form onSubmit={(e) => {
-          e.preventDefault()
-          const username = e.currentTarget.username.value
-          const password = e.currentTarget.password.value
-          login(username, password)
-          if (localStorage.getItem('token') !== null) {
-            setAuth(true);
-            // TODO: get user shows from backend
-           }
-        }}>
+        <form onSubmit={handleLogin}>
           <div className="flex flex-col text-left">
             <label className="mt-3 mb-2 mx-2 text-2xl" htmlFor="username">Username</label>
             <input className="mx-2 text-2xl" type="text" name="username" id="username" />

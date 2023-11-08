@@ -8,9 +8,10 @@ import { userProviders } from 'src/users/user.provider';
 import { showProviders } from 'src/shows/show.provider';
 import { watchedShowProviders } from './watchedShow.provider';
 import { WatchedShowsService } from './watchedShows.service';
+import { ShowsModule } from 'src/shows/shows.module';
 
 @Module({
-  imports: [DatabaseModule, JwtModule, AuthModule, UsersModule],
+  imports: [DatabaseModule, JwtModule, AuthModule, UsersModule, ShowsModule],
   providers: [
     ...userProviders,
     ...showProviders,

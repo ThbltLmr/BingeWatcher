@@ -7,11 +7,11 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class WatchedShowsService {
   constructor(
-    @Inject('WATCHED_SHOWS_REPOSITORY')
+    @Inject('WATCHED_SHOW_REPOSITORY')
     private watchedShowsRepository: Repository<WatchedShow>,
-    @Inject('SHOWS_REPOSITORY')
+    @Inject('SHOW_REPOSITORY')
     private showsRepository: Repository<Show>,
-    @Inject('USERS_REPOSITORY')
+    @Inject('USER_REPOSITORY')
     private usersRepository: Repository<User>,
   ) {}
 

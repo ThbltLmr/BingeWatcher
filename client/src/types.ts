@@ -1,5 +1,8 @@
 export type Show = {
   title: string,
+  description: string,
   posterURL: string,
-  TMDBid: number
+  numberOfSeasons: number,
+  TMDBid: number,
+  genres: string[],
 }
