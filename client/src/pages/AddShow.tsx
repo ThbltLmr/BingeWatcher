@@ -4,10 +4,13 @@ import { Typography } from "@mui/material";
 import { AuthenticationContext } from "../contexts/authContext";
 import { useContext, useState } from "react";
 import ShowCard from "../components/ShowCard";
+import CenterPopUp from "../components/CenterPopUp";
 
 export default function AddShow(){
   const {auth, setAuth} = useContext(AuthenticationContext);
   const [searchResults, setSearchResults] = useState([])
+  const [showPopUp, setShowPopUp] = useState(false)
+  const [selectedShow, setSelectedShow] = useState({})
 
   const updateSearchResults = async (e: any) => {
     fetch(`http://localhost:3000/tmdbapi/search?tv=${e.target.value}`)
@@ -27,6 +30,11 @@ export default function AddShow(){
     })
   }
 
+  const openPopUp = (e) => {
+    setSelectedShow(searchResults.find((show) => show.TMDBid == e.target.id))
+    setShowPopUp(true)
+  }
+
   if (!auth) {
     return(
       <Navigate to="/login" />
@@ -36,18 +44,23 @@ export default function AddShow(){
 
 
   return(
-    <div>
+    <div className="relative">
       <Navbar/>
       <div className="mb-6">
+        {showPopUp && <CenterPopUp show={selectedShow} />}
         <Typography variant="h1" component="div" sx={{ flexGrow: 1, fontSize: '4em' }}>Search shows</Typography>
         <form>
           <label htmlFor="tv">Search</label>
           <input type="text" onChange={updateSearchResults}/>
         </form>
-        {searchResults.length > 0 &&
-        searchResults.map((show) => (
-           <ShowCard key={show.id} show={show} />
-        ))}
+        <div className="flex flex-row flex-wrap">
+          {searchResults.length > 0 &&
+          searchResults.map((show) => (
+            <div id={show.TMDBid} className="w-92 m-2" onClick={openPopUp}>
+              <ShowCard key={show.TMDBid} show={show} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
