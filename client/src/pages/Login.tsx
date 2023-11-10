@@ -2,11 +2,14 @@ import { Navigate } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import { login } from '../services/authService';
 import Navbar from "../components/Navbar";
+import { AuthenticationContext } from "../contexts/authContext";
+import { useContext } from "react";
 
-export default function Login({auth, setAuth}: {auth: boolean, setAuth: Function}){
+export default function Login(){
+  const {auth, setAuth} = useContext(AuthenticationContext);
   if (auth) {
     return(
-      <Navigate to="/shows" replace={true} />
+      <Navigate to="/shows" />
     )
   }
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,7 +23,7 @@ export default function Login({auth, setAuth}: {auth: boolean, setAuth: Function
 
   return(
     <div>
-      <Navbar auth={auth} setAuth={setAuth} />
+      <Navbar />
       <div className="w-1/4 mx-auto text-center my-8 rounded border-2 p-8 bg-gray-200">
         <div className="mb-6">
           <Typography variant="h1" component="div" sx={{ flexGrow: 1, fontSize: '4em' }}>Log in</Typography>

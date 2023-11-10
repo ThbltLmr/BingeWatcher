@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,8 +10,10 @@ import { Link } from "react-router-dom";
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { logout } from '../services/authService';
+import { AuthenticationContext } from '../contexts/authContext';
 
-export default function Navbar({auth, setAuth}: {auth: boolean, setAuth: Function}) {
+export default function Navbar() {
+  const {auth, setAuth} = useContext(AuthenticationContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false)
 

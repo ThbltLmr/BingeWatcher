@@ -1,8 +1,12 @@
 import Navbar from "../components/Navbar";
 import Typography from '@mui/material/Typography';
 import ExplanationCard from "../components/ExplanationCard";
+import { AuthenticationContext } from "../contexts/authContext";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 
-export default function Homepage({auth, setAuth}: {auth: boolean, setAuth: Function}) {
+export default function Homepage() {
+  const {auth, setAuth} = useContext(AuthenticationContext);
   const cardContents = [
     {
       title: "Track your favourite shows",
@@ -20,7 +24,7 @@ export default function Homepage({auth, setAuth}: {auth: boolean, setAuth: Funct
 
   return (
     <div>
-      <Navbar auth={auth} setAuth={setAuth}/>
+      <Navbar />
       <div className="w-100 pt-16 text-center mb-8">
         <Typography variant="h1" component="div" sx={{ flexGrow: 1 }}>Welcome to BingeWatcher</Typography>
       </div>
@@ -29,10 +33,10 @@ export default function Homepage({auth, setAuth}: {auth: boolean, setAuth: Funct
       </div>
       <div className="text-center w-100 mb-16">
         {!auth &&
-          <a href="/login"><button className="bg-blue-500 hover:bg-blue-700 text-white font-light text-5xl py-4 px-10 rounded">Get started</button></a>
+          <Link to="/login"><button className="bg-blue-500 hover:bg-blue-700 text-white font-light text-5xl py-4 px-10 rounded">Get started</button></Link>
         }
         {auth &&
-          <a href="/profile"><button className="bg-blue-500 hover:bg-blue-700 text-white font-light text-5xl py-4 px-10 rounded">Your shows</button></a>
+          <Link to="/shows"><button className="bg-blue-500 hover:bg-blue-700 text-white font-light text-5xl py-4 px-10 rounded">Your shows</button></Link>
         }
       </div>
       <div className="w-11/12 mx-auto flex justify-center">

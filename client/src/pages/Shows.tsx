@@ -1,10 +1,13 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Carrousel from "../components/Carrousel";
 import Typography from '@mui/material/Typography';
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthenticationContext } from "../contexts/authContext";
 
-export default function Shows({auth, setAuth}: {auth: boolean, setAuth: Function}){
+export default function Shows(){
+  const navigate = useNavigate();
+  const {auth, setAuth} = useContext(AuthenticationContext);
   const [shows, setShows] = useState([
     {
       title: "Suits",
@@ -68,22 +71,24 @@ export default function Shows({auth, setAuth}: {auth: boolean, setAuth: Function
     },
   ])
 
+  const navigateToAddShow = () => {
+    navigate("/addshow");
+  }
+
   if (!auth) {
-    return(
-      <Navigate to="/login" replace={true} />
-    )
+    navigate("/login");
   }
 
   return(
     <div>
-      <Navbar auth={auth} setAuth={setAuth}/>
+      <Navbar />
       <div className="w-100 pt-16 mb-8 ms-8">
         <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Track all your favourite shows</Typography>
       </div>
       <div className="m-8">
         <Carrousel shows={shows} />
       </div>
-      <a href="/addshow"><button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-light mx-2 text-3xl py-4 px-8 rounded">Add show</button></a>
+      <button onClick={navigateToAddShow} type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-light mx-2 text-3xl py-4 px-8 rounded">Add show</button>
     </div>
   )
 }
