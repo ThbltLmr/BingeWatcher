@@ -8,6 +8,7 @@ import {
   Patch,
 } from '@nestjs/common';
 import { ShowService } from './show.service';
+import { ShowDataDto } from './dtos/ShowData.dto';
 
 @Controller('shows')
 export class ShowsController {
@@ -24,14 +25,12 @@ export class ShowsController {
   }
 
   @Post()
-  // TODO: create a DTO class
-  create(@Body() showData: any) {
-    // return showData;
+  create(@Body() showData: ShowDataDto) {
     return this.showService.create(showData);
   }
 
   @Patch(':id')
-  update(@Param() params: any, @Body() showData: any) {
+  update(@Param() params: any, @Body() showData: ShowDataDto) {
     return this.showService.update(params.id, showData);
   }
 

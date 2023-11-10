@@ -8,6 +8,7 @@ import {
   Patch,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { UserDataDto } from './dtos/UserData.dto';
 
 @Controller('users')
 export class UsersController {
@@ -24,14 +25,12 @@ export class UsersController {
   }
 
   @Post()
-  // TODO: create a DTO class
-  create(@Body() userData: any) {
-    // return userData;
+  create(@Body() userData: UserDataDto) {
     return this.usersService.create(userData);
   }
 
   @Patch(':id')
-  update(@Param() params: any, @Body() userData: any) {
+  update(@Param() params: any, @Body() userData: UserDataDto) {
     return this.usersService.update(params.id, userData);
   }
 
