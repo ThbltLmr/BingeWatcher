@@ -31,7 +31,8 @@ export default function AddShow(){
   }
 
   const openPopUp = (e) => {
-    setSelectedShow(searchResults.find((show) => show.TMDBid == e.target.id))
+    const currentShow = searchResults.find((show) => show.TMDBid == e.currentTarget.id)
+    setSelectedShow(currentShow)
     setShowPopUp(true)
   }
 
