@@ -21,6 +21,14 @@ export class UsersService {
     });
   }
 
+  async findOneByUsername(username: string): Promise<User> {
+    return this.usersRepository.findOne({
+      where: {
+        username: username,
+      },
+    });
+  }
+
   async create(userData: any): Promise<User> {
     const user = new User();
     user.username = userData.username;

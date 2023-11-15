@@ -1,4 +1,4 @@
-import { WatchedShow } from 'src/users/WatchedShow.entity';
+import { WatchedShow } from 'src/watchedShows/watchedShow.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
@@ -15,13 +15,13 @@ export class Show {
   @Column('text', { nullable: true })
   posterURL: string;
 
-  @Column('int')
+  @Column('int', { nullable: true })
   numberOfSeasons: number;
 
-  @Column()
+  @Column({ nullable: true })
   tmdbId: number;
 
-  @Column()
+  @Column('text', { array: true, nullable: true })
   genres: string[];
 
   @OneToMany(() => WatchedShow, (watchedShow) => watchedShow.show)

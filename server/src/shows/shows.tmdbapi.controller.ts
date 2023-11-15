@@ -9,4 +9,9 @@ export class TMDBAPIController {
   async searchShows(@Query('tv') query: string) {
     return this.TMDBAPIservice.searchShows(query);
   }
+
+  @Get('show')
+  async getShow(@Query('id') tmdbId: string) {
+    return this.TMDBAPIservice.getShow(tmdbId);
+  }
 }
