@@ -16,8 +16,6 @@ export class TMDBAPIService {
 
   // TODO: change genres_ids to genre names (string[])
   async searchShows(query: string) {
-    // const tmdbAPIKey = this.configService.get<string>('TMDB_API_KEY');
-    // const tmdbAPIURL = this.configService.get<string>('TMDB_API_URL');
     const response = await this.httpService.axiosRef.get(
       `${this.tmdbAPIURL}/search/tv?api_key=${this.tmdbAPIKey}&query=${query}`,
     );
@@ -25,8 +23,6 @@ export class TMDBAPIService {
   }
 
   async getShow(tmdbId: string) {
-    // const tmdbAPIKey = this.configService.get<string>('TMDB_API_KEY');
-    // const tmdbAPIURL = this.configService.get<string>('TMDB_API_URL');
     const response = await this.httpService.axiosRef.get(
       `${this.tmdbAPIURL}/tv/${tmdbId}?api_key=${this.tmdbAPIKey}`,
     );
