@@ -25,12 +25,37 @@ export class ShowService {
   }
 
   async create(showData: ShowDataDto): Promise<Show> {
-    if (
-      await this.showRepository.findOne({ where: { tmdbId: showData.tmdbId } })
-    ) {
+    await this.checkIfShowExists(showData.tmdbId);
+    const show = this.createShowEntity(showData);
+    return this.showRepository.save(show);
+  }
+
+  async update(id: number, showData: ShowDataDto): Promise<Show> {
+    const show = await this.findOne(id);
+    this.updateShowEntity(showData, show);
+    return this.showRepository.save(show);
+  }
+
+  async delete(id: number): Promise<any> {
+    return this.showRepository.delete(id);
+  }
+
+  private async checkIfShowExists(tmdbId: number): Promise<void> {
+    const existingShow = await this.showRepository.findOne({
+      where: { tmdbId },
+    });
+    if (existingShow) {
       throw new Error('Show already exists');
     }
+  }
+
+  private createShowEntity(showData: ShowDataDto): Show {
     const show = new Show();
+    this.updateShowEntity(showData, show);
+    return show;
+  }
+
+  private updateShowEntity(showData: ShowDataDto, show: Show): Show {
     show.title = showData.title;
     show.description = showData.description;
     show.numberOfSeasons = showData.numberOfSeasons;
@@ -38,19 +63,6 @@ export class ShowService {
       this.configService.get<string>('TMDB_API_IMAGE_URL') + showData.posterURL;
     show.tmdbId = showData.tmdbId;
     show.genres = showData.genres;
-    return this.showRepository.save(show);
-  }
-
-  async update(id: number, showData: ShowDataDto): Promise<Show> {
-    const show = await this.findOne(id);
-    show.title = showData.title;
-    show.description = showData.description;
-    show.numberOfSeasons = showData.numberOfSeasons;
-    show.posterURL = showData.posterURL;
-    return this.showRepository.save(show);
-  }
-
-  async delete(id: number): Promise<any> {
-    return this.showRepository.delete(id);
+    return show;
   }
 }
