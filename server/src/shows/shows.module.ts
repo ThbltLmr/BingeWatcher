@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
 import { showProviders } from './show.provider';
-import { ShowService } from './show.service';
+import { ShowService } from './shows.service';
 import { ShowsController } from './shows.controller';
-import { TMDBAPIService } from './show.tmdbapi.service';
+import { TMDBAPIService } from './shows.tmdbapi.service';
 import { TMDBAPIController } from './shows.tmdbapi.controller';
 import { HttpModule } from '@nestjs/axios';
 
