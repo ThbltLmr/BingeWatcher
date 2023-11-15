@@ -1,8 +1,8 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { AuthService } from 'src/auth/auth.service';
-import { WatchedShowsService } from './watchedShows.service';
-import { WatchedShowDataDto } from './dtos/WatchedShowData.dto';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { AuthService } from 'src/auth/services/auth.service';
+import { WatchedShowsService } from '../services/watchedShows.service';
+import { WatchedShowDataDto } from '../dtos/WatchedShowData.dto';
 
 @Controller('watchedShows')
 export class WatchedShowsController {

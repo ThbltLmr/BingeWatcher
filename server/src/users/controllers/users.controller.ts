@@ -7,8 +7,8 @@ import {
   Param,
   Patch,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UserDataDto } from './dtos/UserData.dto';
+import { UsersService } from '../services/users.service';
+import { UserDataDto } from '../dtos/UserData.dto';
 
 @Controller('users')
 export class UsersController {

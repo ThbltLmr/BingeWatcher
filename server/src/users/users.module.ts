@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UsersService } from './services/users.service';
 import { DatabaseModule } from 'src/database/database.module';
-import { userProviders } from './user.provider';
-import { UsersController } from './users.controller';
+import { userProviders } from './entities/user.provider';
+import { UsersController } from './controllers/users.controller';
 
 @Module({
   imports: [DatabaseModule],
