@@ -7,8 +7,8 @@ import {
   Param,
   Patch,
 } from '@nestjs/common';
-import { ShowService } from './shows.service';
-import { ShowDataDto } from './dtos/ShowData.dto';
+import { ShowService } from '../services/shows.service';
+import { ShowDataDto } from '../dtos/ShowData.dto';
 
 @Controller('shows')
 export class ShowsController {

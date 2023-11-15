@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Show } from './show.entity';
+import { Show } from '../entities/show.entity';
 import { ConfigService } from '@nestjs/config';
-import { ShowDataDto } from './dtos/ShowData.dto';
+import { ShowDataDto } from '../dtos/ShowData.dto';
 
 @Injectable()
 export class ShowService {

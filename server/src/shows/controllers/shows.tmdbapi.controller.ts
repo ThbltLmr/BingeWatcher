@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { TMDBAPIService } from './shows.tmdbapi.service';
+import { TMDBAPIService } from '../services/shows.tmdbapi.service';
 
 @Controller('tmdbapi')
 export class TMDBAPIController {
