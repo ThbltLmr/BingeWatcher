@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Show } from './show.entity';
 import { ConfigService } from '@nestjs/config';
+import { ShowDataDto } from './dtos/ShowData.dto';
 
 @Injectable()
 export class ShowService {
@@ -23,7 +24,7 @@ export class ShowService {
     });
   }
 
-  async create(showData: any): Promise<Show> {
+  async create(showData: ShowDataDto): Promise<Show> {
     if (
       await this.showRepository.findOne({ where: { tmdbId: showData.tmdbId } })
     ) {
@@ -40,7 +41,7 @@ export class ShowService {
     return this.showRepository.save(show);
   }
 
-  async update(id: number, showData: any): Promise<Show> {
+  async update(id: number, showData: ShowDataDto): Promise<Show> {
     const show = await this.findOne(id);
     show.title = showData.title;
     show.description = showData.description;

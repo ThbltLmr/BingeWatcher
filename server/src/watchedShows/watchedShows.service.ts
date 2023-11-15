@@ -15,7 +15,11 @@ export class WatchedShowsService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async addWatchedShow(userId: number, showtmdbId: number) {
+  async addWatchedShow(
+    userId: number,
+    showtmdbId: number,
+    numberOfSeasonsWatched: number,
+  ) {
     const user = await this.usersRepository.findOne({
       where: {
         id: userId,
@@ -32,6 +36,7 @@ export class WatchedShowsService {
     const watchedShow = new WatchedShow();
     watchedShow.user = user;
     watchedShow.show = show;
+    watchedShow.watchedSeasons = numberOfSeasonsWatched;
     return this.watchedShowsRepository.save(watchedShow);
   }
 }
