@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from 'src/database/database.module';
+import { DatabaseModule } from '../database/database.module';
 import { WatchedShowsController } from './controllers/watchedShows.controller';
-import { AuthModule } from 'src/auth/auth.module';
-import { UsersModule } from 'src/users/users.module';
+import { AuthModule } from '../auth/auth.module';
+import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
-import { userProviders } from 'src/users/user.provider';
-import { showProviders } from 'src/shows/show.provider';
+import { userProviders } from '../users/entities/user.provider';
+import { showProviders } from '../shows/entities/show.provider';
 import { watchedShowProviders } from './entities/watchedShow.provider';
 import { WatchedShowsService } from './services/watchedShows.service';
-import { ShowsModule } from 'src/shows/shows.module';
+import { ShowsModule } from '../shows/shows.module';
 
 @Module({
   imports: [DatabaseModule, JwtModule, AuthModule, UsersModule, ShowsModule],
