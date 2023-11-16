@@ -15,6 +15,5 @@ import { WatchedShowsModule } from './watchedShows/watchedShows.module';
       isGlobal: true,
     }),
   ],
-  // providers: [AppService],
 })
 export class AppModule {}
