@@ -11,7 +11,7 @@ export const databaseProviders = [
         username: 'postgres',
         password: '4b56f6',
         database: 'BingeWatcher',
-        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+        entities: [__dirname + '/../**/*.orm-entity{.ts,.js}'],
         synchronize: true,
       });
 

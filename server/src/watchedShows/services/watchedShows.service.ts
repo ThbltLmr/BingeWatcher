@@ -1,18 +1,18 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { WatchedShow } from '../../shared-kernel/orm-entities/watched-show.orm-entity';
-import { Show } from '../../shared-kernel/orm-entities/show.orm-entity';
-import { User } from '../../shared-kernel/orm-entities/user.orm-entity';
+import { WatchedShowOrmEntity } from '../../shared-kernel/orm-entities/watched-show.orm-entity';
+import { ShowOrmEntity } from '../../shared-kernel/orm-entities/show.orm-entity';
+import { UserOrmEntity } from '../../shared-kernel/orm-entities/user.orm-entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class WatchedShowsService {
   constructor(
     @Inject('WATCHED_SHOW_REPOSITORY')
-    private watchedShowsRepository: Repository<WatchedShow>,
+    private watchedShowsRepository: Repository<WatchedShowOrmEntity>,
     @Inject('SHOW_REPOSITORY')
-    private showsRepository: Repository<Show>,
+    private showsRepository: Repository<ShowOrmEntity>,
     @Inject('USER_REPOSITORY')
-    private usersRepository: Repository<User>,
+    private usersRepository: Repository<UserOrmEntity>,
   ) {}
 
   async addWatchedShow(
@@ -33,7 +33,7 @@ export class WatchedShowsService {
     if (!show) {
       //TODO: create show
     }
-    const watchedShow = new WatchedShow();
+    const watchedShow = new WatchedShowOrmEntity();
     watchedShow.user = user;
     watchedShow.show = show;
     watchedShow.watchedSeasons = numberOfSeasonsWatched;

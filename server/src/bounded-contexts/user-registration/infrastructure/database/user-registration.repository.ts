@@ -10,7 +10,7 @@ import { UpdateUserCommand } from '../commands/update-user.command';
 import { DeleteUserCommand } from '../commands/delete-user.command';
 
 @Injectable()
-export class UsersService {
+export class UsersRepository {
   constructor(
     @Inject('USER_REPOSITORY')
     private usersRepository: Repository<UserOrmEntity>,

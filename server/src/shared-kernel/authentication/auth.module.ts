@@ -4,11 +4,14 @@ import { UsersModule } from '../../bounded-contexts/user-registration/user-regis
 import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
 import { JwtModule } from '@nestjs/jwt';
+import { userProviders } from '../orm-repositories/users.orm-repository';
+import { DatabaseModule } from 'database/database.module';
 
 @Module({
   imports: [
     UsersModule,
     ConfigModule,
+    DatabaseModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -19,7 +22,7 @@ import { JwtModule } from '@nestjs/jwt';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, ...userProviders],
   controllers: [AuthController],
   exports: [AuthService],
 })

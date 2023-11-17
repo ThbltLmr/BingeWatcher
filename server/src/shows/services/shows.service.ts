@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Show } from '../../shared-kernel/orm-entities/show.orm-entity';
+import { ShowOrmEntity } from '../../shared-kernel/orm-entities/show.orm-entity';
 import { ConfigService } from '@nestjs/config';
 import { ShowDataDto } from '../dtos/ShowData.dto';
 
@@ -8,15 +8,15 @@ import { ShowDataDto } from '../dtos/ShowData.dto';
 export class ShowService {
   constructor(
     @Inject('SHOW_REPOSITORY')
-    private showRepository: Repository<Show>,
+    private showRepository: Repository<ShowOrmEntity>,
     private configService: ConfigService,
   ) {}
 
-  async findAll(): Promise<Show[]> {
+  async findAll(): Promise<ShowOrmEntity[]> {
     return this.showRepository.find();
   }
 
-  async findOne(id: number): Promise<Show> {
+  async findOne(id: number): Promise<ShowOrmEntity> {
     return this.showRepository.findOne({
       where: {
         id: id,
@@ -24,13 +24,13 @@ export class ShowService {
     });
   }
 
-  async create(showData: ShowDataDto): Promise<Show> {
+  async create(showData: ShowDataDto): Promise<ShowOrmEntity> {
     await this.checkIfShowExists(showData.tmdbId);
-    const show = this.createShowEntity(showData);
+    const show = this.createShowOrmEntity(showData);
     return this.showRepository.save(show);
   }
 
-  async update(id: number, showData: ShowDataDto): Promise<Show> {
+  async update(id: number, showData: ShowDataDto): Promise<ShowOrmEntity> {
     const show = await this.findOne(id);
     this.updateShowEntity(showData, show);
     return this.showRepository.save(show);
@@ -49,13 +49,16 @@ export class ShowService {
     }
   }
 
-  private createShowEntity(showData: ShowDataDto): Show {
-    const show = new Show();
+  private createShowOrmEntity(showData: ShowDataDto): ShowOrmEntity {
+    const show = new ShowOrmEntity();
     this.updateShowEntity(showData, show);
     return show;
   }
 
-  private updateShowEntity(showData: ShowDataDto, show: Show): Show {
+  private updateShowEntity(
+    showData: ShowDataDto,
+    show: ShowOrmEntity,
+  ): ShowOrmEntity {
     show.title = showData.title;
     show.description = showData.description;
     show.numberOfSeasons = showData.numberOfSeasons;

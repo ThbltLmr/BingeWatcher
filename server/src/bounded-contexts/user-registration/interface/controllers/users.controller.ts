@@ -7,7 +7,7 @@ import {
   Param,
   Patch,
 } from '@nestjs/common';
-import { UsersService } from '../../infrastructure/database/user-registration.repository';
+import { UsersRepository } from '../../infrastructure/database/user-registration.repository';
 import { UserDataDto } from '../dtos/UserData.dto';
 import { GetUserByIdQuery } from '../../infrastructure/queries/get-user-by-id.query';
 import { CreateUserCommand } from '../../infrastructure/commands/create-user.command';
@@ -17,7 +17,7 @@ import { DeleteUserCommand } from '../../infrastructure/commands/delete-user.com
 
 @Controller('users')
 export class UsersController {
-  constructor(readonly usersService: UsersService) {}
+  constructor(readonly usersService: UsersRepository) {}
 
   @Get()
   async findAll() {
