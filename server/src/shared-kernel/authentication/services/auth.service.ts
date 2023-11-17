@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../../../users/services/users.service';
+import { UsersService } from '../../../bounded-contexts/user-registration/infrastructure/database/user-registration.repository';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()

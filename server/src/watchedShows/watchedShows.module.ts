@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../../database/database.module';
 import { WatchedShowsController } from './controllers/watchedShows.controller';
 import { AuthModule } from '../shared-kernel/authentication/auth.module';
-import { UsersModule } from '../users/users.module';
+import { UsersModule } from '../bounded-contexts/user-registration/user-registration.module';
 import { JwtModule } from '@nestjs/jwt';
 import { userProviders } from '../shared-kernel/orm-repositories/users.orm-repository';
 import { showProviders } from '../shared-kernel/orm-repositories/shows.orm-repository';

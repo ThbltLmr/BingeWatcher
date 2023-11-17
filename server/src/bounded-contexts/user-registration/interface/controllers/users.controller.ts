@@ -7,7 +7,7 @@ import {
   Param,
   Patch,
 } from '@nestjs/common';
-import { UsersService } from '../services/users.service';
+import { UsersService } from '../../infrastructure/database/user-registration.repository';
 import { UserDataDto } from '../dtos/UserData.dto';
 
 @Controller('users')
