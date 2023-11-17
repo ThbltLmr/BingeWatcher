@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class TMDBAPIService {
+export class TmdbApiAdapter {
   tmdbAPIKey: string;
   tmdbAPIURL: string;
   constructor(

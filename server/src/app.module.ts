@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from './shared-kernel/authentication/auth.module';
 import { UsersModule } from './bounded-contexts/user-registration/user-registration.module';
 import { ConfigModule } from '@nestjs/config';
-import { ShowsModule } from './shows/shows.module';
+import { ShowsModule } from './bounded-contexts/show-tracking/shows.module';
 import { WatchedShowsModule } from './watchedShows/watchedShows.module';
 
 @Module({

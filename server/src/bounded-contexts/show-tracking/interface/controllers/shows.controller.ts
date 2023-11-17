@@ -7,35 +7,35 @@ import {
   Param,
   Patch,
 } from '@nestjs/common';
-import { ShowService } from '../services/shows.service';
+import { ShowsRepository } from '../../infrastructure/database/shows.repository';
 import { ShowDataDto } from '../dtos/ShowData.dto';
 
 @Controller('shows')
 export class ShowsController {
-  constructor(readonly showService: ShowService) {}
+  constructor(readonly showsRepository: ShowsRepository) {}
 
   @Get()
   async findAll() {
-    return this.showService.findAll();
+    return this.showsRepository.findAll();
   }
 
   @Get(':id')
   async findOne(@Param() params: any) {
-    return this.showService.findOne(params.id);
+    return this.showsRepository.findOne(params.id);
   }
 
   @Post()
   create(@Body() showData: ShowDataDto) {
-    return this.showService.create(showData);
+    return this.showsRepository.create(showData);
   }
 
   @Patch(':id')
   update(@Param() params: any, @Body() showData: ShowDataDto) {
-    return this.showService.update(params.id, showData);
+    return this.showsRepository.update(params.id, showData);
   }
 
   @Delete(':id')
   delete(@Param() params: any) {
-    return this.showService.delete(params.id);
+    return this.showsRepository.delete(params.id);
   }
 }

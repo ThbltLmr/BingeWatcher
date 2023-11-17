@@ -8,7 +8,7 @@ import { userProviders } from '../shared-kernel/orm-repositories/users.orm-repos
 import { showProviders } from '../shared-kernel/orm-repositories/shows.orm-repository';
 import { watchedShowProviders } from '../shared-kernel/orm-repositories/watched-shows.orm-repository';
 import { WatchedShowsService } from './services/watchedShows.service';
-import { ShowsModule } from '../shows/shows.module';
+import { ShowsModule } from '../bounded-contexts/show-tracking/shows.module';
 
 @Module({
   imports: [DatabaseModule, JwtModule, AuthModule, UsersModule, ShowsModule],

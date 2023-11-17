@@ -1,11 +1,11 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { ShowOrmEntity } from '../../shared-kernel/orm-entities/show.orm-entity';
+import { ShowOrmEntity } from '../../../../shared-kernel/orm-entities/show.orm-entity';
 import { ConfigService } from '@nestjs/config';
-import { ShowDataDto } from '../dtos/ShowData.dto';
+import { ShowDataDto } from '../../interface/dtos/ShowData.dto';
 
 @Injectable()
-export class ShowService {
+export class ShowsRepository {
   constructor(
     @Inject('SHOW_REPOSITORY')
     private showRepository: Repository<ShowOrmEntity>,
