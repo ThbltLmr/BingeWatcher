@@ -1,8 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { UserOrmEntity } from '../../../../shared-kernel/orm-entities/user.orm-entity';
 import { UserRegistrationMapper } from './user-registration.mapper';
 import { UserEntity } from '../../domain/entities/user.entity';
+import { GetUserByIdQuery } from '../queries/get-user-by-id.query';
+import { GetUserByUsernameQuery } from '../queries/get-user-by-username.query';
+import { CreateUserCommand } from '../commands/create-user.command';
+import { UpdateUserCommand } from '../commands/update-user.command';
+import { DeleteUserCommand } from '../commands/delete-user.command';
 
 @Injectable()
 export class UsersService {
@@ -20,37 +25,52 @@ export class UsersService {
     return allUserEntities;
   }
 
-  async findOne(id: number): Promise<UserOrmEntity> {
-    return this.usersRepository.findOne({
+  async findOne(query: GetUserByIdQuery): Promise<UserEntity> {
+    const userOrmEntity = await this.usersRepository.findOne({
       where: {
-        id: id,
+        id: query.id,
       },
     });
+    const userEntity = this.userRegistrationMapper.toEntity(userOrmEntity);
+    return userEntity;
   }
 
-  async findOneByUsername(username: string): Promise<UserOrmEntity> {
-    return this.usersRepository.findOne({
+  async findOneByUsername(query: GetUserByUsernameQuery): Promise<UserEntity> {
+    const userOrmEntity = await this.usersRepository.findOne({
       where: {
-        username: username,
+        username: query.username,
       },
     });
+    const userEntity = this.userRegistrationMapper.toEntity(userOrmEntity);
+    return userEntity;
   }
 
-  async create(userData: any): Promise<UserOrmEntity> {
-    const user = new User();
-    user.username = userData.username;
-    user.password = userData.password;
-    return this.usersRepository.save(user);
+  async create(command: CreateUserCommand): Promise<UserOrmEntity> {
+    const user = new UserEntity();
+    user.username = command.username;
+    user.password = command.password;
+    user.email = command.email;
+    const userOrmEntity = this.userRegistrationMapper.toOrmEntity(user);
+    return this.usersRepository.save(userOrmEntity);
   }
 
-  async update(id: number, userData: any): Promise<UserOrmEntity> {
-    const user = await this.findOne(id);
-    user.username = userData.username;
-    user.password = userData.password;
-    return this.usersRepository.save(user);
+  async update(command: UpdateUserCommand): Promise<UserOrmEntity> {
+    const userOrmEntity = await this.usersRepository.findOne({
+      where: {
+        id: command.id,
+      },
+    });
+    const userEntity = this.userRegistrationMapper.toEntity(userOrmEntity);
+    userEntity.username = command.username;
+    userEntity.password = command.password;
+    userEntity.email = command.email;
+    const updatedUserOrmEntity =
+      this.userRegistrationMapper.toOrmEntity(userEntity);
+    updatedUserOrmEntity.id = command.id;
+    return this.usersRepository.save(updatedUserOrmEntity);
   }
 
-  async delete(id: number): Promise<any> {
-    return this.usersRepository.delete(id);
+  async delete(command: DeleteUserCommand): Promise<DeleteResult> {
+    return this.usersRepository.delete(command.id);
   }
 }

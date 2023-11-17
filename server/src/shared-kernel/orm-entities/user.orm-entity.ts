@@ -9,7 +9,7 @@ export class UserOrmEntity {
   @Column({ length: 500 })
   username: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, unique: true })
   email: string;
 
   //TODO: hash password
