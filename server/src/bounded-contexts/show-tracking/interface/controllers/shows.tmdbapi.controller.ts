@@ -1,17 +1,17 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { TMDBAPIService } from '../../bounded-contexts/show-tracking/infrastructure/tmdb-api/shows.tmdbapi.service';
+import { TmdbApiAdapter } from '../../infrastructure/tmdb-api/shows.tmdbapi.adapter';
 
 @Controller('tmdbapi')
 export class TMDBAPIController {
-  constructor(readonly TMDBAPIservice: TMDBAPIService) {}
+  constructor(readonly tmdbApiAdapter: TmdbApiAdapter) {}
 
   @Get('search')
   async searchShows(@Query('tv') query: string) {
-    return this.TMDBAPIservice.searchShows(query);
+    return this.tmdbApiAdapter.searchShows(query);
   }
 
   @Get('show')
   async getShow(@Query('id') tmdbId: string) {
-    return this.TMDBAPIservice.getShow(tmdbId);
+    return this.tmdbApiAdapter.getShow(tmdbId);
   }
 }

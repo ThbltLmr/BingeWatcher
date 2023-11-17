@@ -8,7 +8,7 @@ import {
   Patch,
 } from '@nestjs/common';
 import { ShowsRepository } from '../../infrastructure/database/shows.repository';
-import { ShowDataDto } from '../dtos/ShowData.dto';
+import { ShowDataDto } from '../dtos/show-data.dto';
 
 @Controller('shows')
 export class ShowsController {

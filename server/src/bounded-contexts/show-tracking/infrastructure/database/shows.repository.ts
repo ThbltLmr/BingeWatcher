@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { ShowOrmEntity } from '../../../../shared-kernel/orm-entities/show.orm-entity';
 import { ConfigService } from '@nestjs/config';
-import { ShowDataDto } from '../../interface/dtos/ShowData.dto';
+import { ShowDataDto } from '../../interface/dtos/show-data.dto';
 
 @Injectable()
 export class ShowsRepository {

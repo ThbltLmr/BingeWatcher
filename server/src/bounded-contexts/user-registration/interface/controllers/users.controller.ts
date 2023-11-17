@@ -8,7 +8,7 @@ import {
   Patch,
 } from '@nestjs/common';
 import { UsersRepository } from '../../infrastructure/database/user-registration.repository';
-import { UserDataDto } from '../dtos/UserData.dto';
+import { UserDataDto } from '../dtos/user-data.dto';
 import { GetUserByIdQuery } from '../../infrastructure/queries/get-user-by-id.query';
 import { CreateUserCommand } from '../../infrastructure/commands/create-user.command';
 import { Email } from '../../domain/value-objects/email.value-object';
