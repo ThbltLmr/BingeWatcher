@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { WatchedShow } from '../entities/watchedShow.entity';
-import { Show } from '../../shows/entities/show.entity';
-import { User } from '../../users/entities/user.entity';
+import { WatchedShow } from '../../shared-kernel/orm-entities/watched-show.orm-entity';
+import { Show } from '../../shared-kernel/orm-entities/show.orm-entity';
+import { User } from '../../shared-kernel/orm-entities/user.orm-entity';
 import { Repository } from 'typeorm';
 
 @Injectable()

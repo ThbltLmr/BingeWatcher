@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { WatchedShow } from './watchedShow.entity';
+import { WatchedShow } from '../orm-entities/watched-show.orm-entity';
 
 export const watchedShowProviders = [
   {

@@ -1,5 +1,5 @@
-import { Show } from '../../shows/entities/show.entity';
-import { User } from '../../users/entities/user.entity';
+import { Show } from './show.orm-entity';
+import { User } from './user.orm-entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()

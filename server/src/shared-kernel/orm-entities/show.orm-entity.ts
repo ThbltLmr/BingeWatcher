@@ -1,4 +1,4 @@
-import { WatchedShow } from '../../watchedShows/entities/watchedShow.entity';
+import { WatchedShow } from './watched-show.orm-entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()

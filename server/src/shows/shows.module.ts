@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../../database/database.module';
-import { showProviders } from './entities/show.provider';
+import { showProviders } from '../shared-kernel/orm-repositories/shows.orm-repository';
 import { ShowService } from './services/shows.service';
 import { ShowsController } from './controllers/shows.controller';
 import { TMDBAPIService } from './services/shows.tmdbapi.service';

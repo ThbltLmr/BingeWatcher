@@ -4,9 +4,9 @@ import { WatchedShowsController } from './controllers/watchedShows.controller';
 import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
-import { userProviders } from '../users/entities/user.provider';
-import { showProviders } from '../shows/entities/show.provider';
-import { watchedShowProviders } from './entities/watchedShow.provider';
+import { userProviders } from '../shared-kernel/orm-repositories/users.orm-repository';
+import { showProviders } from '../shared-kernel/orm-repositories/shows.orm-repository';
+import { watchedShowProviders } from '../shared-kernel/orm-repositories/watched-shows.orm-repository';
 import { WatchedShowsService } from './services/watchedShows.service';
 import { ShowsModule } from '../shows/shows.module';
 

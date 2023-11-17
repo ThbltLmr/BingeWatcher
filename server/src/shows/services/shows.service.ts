@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Show } from '../entities/show.entity';
+import { Show } from '../../shared-kernel/orm-entities/show.orm-entity';
 import { ConfigService } from '@nestjs/config';
 import { ShowDataDto } from '../dtos/ShowData.dto';
 

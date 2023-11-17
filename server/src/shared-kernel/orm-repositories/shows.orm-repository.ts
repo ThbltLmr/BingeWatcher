@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Show } from './show.entity';
+import { Show } from '../orm-entities/show.orm-entity';
 
 export const showProviders = [
   {
