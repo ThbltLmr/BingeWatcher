@@ -1,8 +1,8 @@
-import { WatchedShow } from './watched-show.orm-entity';
+import { WatchedShowOrmEntity } from './watched-show.orm-entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
-export class User {
+export class UserOrmEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -16,6 +16,6 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => WatchedShow, (watchedShow) => watchedShow.show)
-  public watchedShows: WatchedShow[];
+  @OneToMany(() => WatchedShowOrmEntity, (watchedShow) => watchedShow.show)
+  public watchedShows: WatchedShowOrmEntity[];
 }

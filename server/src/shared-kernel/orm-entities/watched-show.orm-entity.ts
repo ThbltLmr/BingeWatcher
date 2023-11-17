@@ -1,18 +1,18 @@
-import { Show } from './show.orm-entity';
-import { User } from './user.orm-entity';
+import { ShowOrmEntity } from './show.orm-entity';
+import { UserOrmEntity } from './user.orm-entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
-export class WatchedShow {
+export class WatchedShowOrmEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   watchedSeasons: number;
 
-  @ManyToOne(() => User, (user) => user.watchedShows)
-  public user: User;
+  @ManyToOne(() => UserOrmEntity, (user) => user.watchedShows)
+  public user: UserOrmEntity;
 
-  @ManyToOne(() => Show, (show) => show.watchedShows)
-  public show: Show;
+  @ManyToOne(() => ShowOrmEntity, (show) => show.watchedShows)
+  public show: ShowOrmEntity;
 }

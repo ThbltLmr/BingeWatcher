@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../../database/database.module';
 import { WatchedShowsController } from './controllers/watchedShows.controller';
-import { AuthModule } from '../auth/auth.module';
+import { AuthModule } from '../shared-kernel/authentication/auth.module';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { userProviders } from '../shared-kernel/orm-repositories/users.orm-repository';

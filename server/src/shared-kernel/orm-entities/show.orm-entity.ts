@@ -1,8 +1,8 @@
-import { WatchedShow } from './watched-show.orm-entity';
+import { WatchedShowOrmEntity } from './watched-show.orm-entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
-export class Show {
+export class ShowOrmEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,6 +24,6 @@ export class Show {
   @Column('text', { array: true, nullable: true })
   genres: string[];
 
-  @OneToMany(() => WatchedShow, (watchedShow) => watchedShow.show)
-  public watchedShows: WatchedShow[];
+  @OneToMany(() => WatchedShowOrmEntity, (watchedShow) => watchedShow.show)
+  public watchedShows: WatchedShowOrmEntity[];
 }
