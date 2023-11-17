@@ -4,7 +4,7 @@ import { AuthService } from '../../auth/services/auth.service';
 import { WatchedShowsService } from '../services/watchedShows.service';
 import { WatchedShowDataDto } from '../dtos/WatchedShowData.dto';
 
-@Controller('watchedShows')
+@Controller('watchedshows')
 export class WatchedShowsController {
   constructor(
     private authService: AuthService,
