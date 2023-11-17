@@ -17,18 +17,18 @@ import { DeleteUserCommand } from '../../infrastructure/commands/delete-user.com
 
 @Controller('users')
 export class UsersController {
-  constructor(readonly usersService: UsersRepository) {}
+  constructor(readonly usersRepository: UsersRepository) {}
 
   @Get()
   async findAll() {
-    return this.usersService.findAll();
+    return this.usersRepository.findAll();
   }
 
   @Get(':id')
   async findOne(@Param() params: any) {
     const query = new GetUserByIdQuery();
     query.id = params.id;
-    return this.usersService.findOne(query);
+    return this.usersRepository.findOne(query);
   }
 
   @Post()
@@ -37,7 +37,7 @@ export class UsersController {
     command.username = userData.username;
     command.password = userData.password;
     command.email = new Email(userData.email);
-    return this.usersService.create(command);
+    return this.usersRepository.create(command);
   }
 
   @Patch(':id')
@@ -47,13 +47,13 @@ export class UsersController {
     command.username = userData.username;
     command.password = userData.password;
     command.email = new Email(userData.email);
-    return this.usersService.update(command);
+    return this.usersRepository.update(command);
   }
 
   @Delete(':id')
   delete(@Param() params: any) {
     const command = new DeleteUserCommand();
     command.id = params.id;
-    return this.usersService.delete(command);
+    return this.usersRepository.delete(command);
   }
 }
