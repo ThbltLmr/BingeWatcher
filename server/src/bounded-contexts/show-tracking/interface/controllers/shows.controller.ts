@@ -14,12 +14,14 @@ import { CreateShowCommand } from '../../infrastructure/commands/create-show.com
 import { ConfigService } from '@nestjs/config';
 import { TmdbPosterUrl } from '../../domain/value-objects/tmdb-poster-url.value-object';
 import { Genre } from '../../domain/value-objects/genre.value-object';
+import { UpdateShowCommand } from '../../infrastructure/commands/update-show.command';
+import { DeleteShowCommand } from '../../infrastructure/commands/delete-show.command';
 
 @Controller('shows')
 export class ShowsController {
   constructor(
     readonly showsRepository: ShowsRepository,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
   ) {}
 
   @Get()
@@ -52,11 +54,25 @@ export class ShowsController {
 
   @Patch(':id')
   update(@Param() params: any, @Body() showData: ShowDataDto) {
-    return this.showsRepository.update(params.id, showData);
+    const command = new UpdateShowCommand();
+    command.id = params.id;
+    command.title = showData.title;
+    command.description = showData.description;
+    command.posterUrl = new TmdbPosterUrl(
+      this.configService.get<string>('TMDB_API_IMAGE_URL') + showData.posterUrl,
+    );
+    command.numberOfSeasons = showData.numberOfSeasons;
+    command.tmdbId = showData.tmdbId;
+    command.genres = showData.genres.map((genre) => {
+      return new Genre(genre);
+    });
+    return this.showsRepository.update(command);
   }
 
   @Delete(':id')
   delete(@Param() params: any) {
-    return this.showsRepository.delete(params.id);
+    const command = new DeleteShowCommand();
+    command.id = params.id;
+    return this.showsRepository.delete(command);
   }
 }

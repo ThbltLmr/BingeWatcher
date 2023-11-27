@@ -6,10 +6,16 @@ import { ShowsController } from './interface/controllers/shows.controller';
 import { TmdbApiAdapter } from './infrastructure/tmdb-api/shows.tmdbapi.adapter';
 import { TMDBAPIController } from './interface/controllers/shows.tmdbapi.controller';
 import { HttpModule } from '@nestjs/axios';
+import { ShowTrackingMapper } from './infrastructure/database/shows.mapper';
 
 @Module({
   imports: [DatabaseModule, HttpModule],
-  providers: [...showProviders, ShowsRepository, TmdbApiAdapter],
+  providers: [
+    ...showProviders,
+    ShowsRepository,
+    TmdbApiAdapter,
+    ShowTrackingMapper,
+  ],
   controllers: [ShowsController, TMDBAPIController],
 })
 export class ShowsModule {}
