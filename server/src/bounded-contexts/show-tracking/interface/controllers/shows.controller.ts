@@ -9,10 +9,18 @@ import {
 } from '@nestjs/common';
 import { ShowsRepository } from '../../infrastructure/database/shows.repository';
 import { ShowDataDto } from '../dtos/show-data.dto';
+import { GetShowById } from '../../infrastructure/queries/get-show-by-id.query';
+import { CreateShowCommand } from '../../infrastructure/commands/create-show.command';
+import { ConfigService } from '@nestjs/config';
+import { TmdbPosterUrl } from '../../domain/value-objects/tmdb-poster-url.value-object';
+import { Genre } from '../../domain/value-objects/genre.value-object';
 
 @Controller('shows')
 export class ShowsController {
-  constructor(readonly showsRepository: ShowsRepository) {}
+  constructor(
+    readonly showsRepository: ShowsRepository,
+    private readonly configService: ConfigService
+  ) {}
 
   @Get()
   async findAll() {
@@ -21,12 +29,25 @@ export class ShowsController {
 
   @Get(':id')
   async findOne(@Param() params: any) {
-    return this.showsRepository.findOne(params.id);
+    const query = new GetShowById();
+    query.id = params.id;
+    return this.showsRepository.findOne(query);
   }
 
   @Post()
   create(@Body() showData: ShowDataDto) {
-    return this.showsRepository.create(showData);
+    const command = new CreateShowCommand();
+    command.title = showData.title;
+    command.description = showData.description;
+    command.posterUrl = new TmdbPosterUrl(
+      this.configService.get<string>('TMDB_API_IMAGE_URL') + showData.posterUrl,
+    );
+    command.numberOfSeasons = showData.numberOfSeasons;
+    command.tmdbId = showData.tmdbId;
+    command.genres = showData.genres.map((genre) => {
+      return new Genre(genre);
+    });
+    return this.showsRepository.create(command);
   }
 
   @Patch(':id')

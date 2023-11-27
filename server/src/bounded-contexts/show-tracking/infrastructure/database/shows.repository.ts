@@ -2,12 +2,12 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { ShowOrmEntity } from '../../../../shared-kernel/orm-entities/show.orm-entity';
 import { ConfigService } from '@nestjs/config';
-import { ShowDataDto } from '../../interface/dtos/show-data.dto';
 import { ShowEntity } from '../../domain/entities/show.entity';
 import { ShowTrackingMapper } from './shows.mapper';
 import { GetShowById } from '../queries/get-show-by-id.query';
 import { CreateShowCommand } from '../commands/create-show.command';
 import { UpdateShowCommand } from '../commands/update-show.command';
+import { DeleteShowCommand } from '../commands/delete-show.command';
 
 @Injectable()
 export class ShowsRepository {
@@ -61,8 +61,8 @@ export class ShowsRepository {
     return this.showRepository.save(updatedShowOrmEntity);
   }
 
-  async delete(id: number): Promise<any> {
-    return this.showRepository.delete(id);
+  async delete(command: DeleteShowCommand): Promise<any> {
+    return this.showRepository.delete(command.id);
   }
 
   private async checkIfShowExists(tmdbId: number): Promise<void> {
