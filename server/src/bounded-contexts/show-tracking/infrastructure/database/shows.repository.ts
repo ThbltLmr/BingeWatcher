@@ -6,6 +6,8 @@ import { ShowDataDto } from '../../interface/dtos/show-data.dto';
 import { ShowEntity } from '../../domain/entities/show.entity';
 import { ShowTrackingMapper } from './shows.mapper';
 import { GetShowById } from '../queries/get-show-by-id.query';
+import { CreateShowCommand } from '../commands/create-show.command';
+import { UpdateShowCommand } from '../commands/update-show.command';
 
 @Injectable()
 export class ShowsRepository {
@@ -33,10 +35,17 @@ export class ShowsRepository {
     return this.showTrackingMapper.toEntity(showOrmEntity);
   }
 
-  async create(showData: ShowDataDto): Promise<ShowOrmEntity> {
-    await this.checkIfShowExists(showData.tmdbId);
-    const show = this.createShowOrmEntity(showData);
-    return this.showRepository.save(show);
+  async create(command: CreateShowCommand): Promise<ShowOrmEntity> {
+    await this.checkIfShowExists(command.tmdbId);
+    const showEntity = new ShowEntity();
+    showEntity.title = command.title;
+    showEntity.description = command.description;
+    showEntity.posterURL = command.posterUrl;
+    showEntity.numberOfSeasons = command.numberOfSeasons;
+    showEntity.tmdbId = command.tmdbId;
+    showEntity.genres = command.genres;
+    const showOrmEntity = this.showTrackingMapper.toOrmEntity(showEntity);
+    return this.showRepository.save(showOrmEntity);
   }
 
   async update(id: number, showData: ShowDataDto): Promise<ShowOrmEntity> {
@@ -56,25 +65,5 @@ export class ShowsRepository {
     if (existingShow) {
       throw new Error('Show already exists');
     }
-  }
-
-  private createShowOrmEntity(showData: ShowDataDto): ShowOrmEntity {
-    const show = new ShowOrmEntity();
-    this.updateShowEntity(showData, show);
-    return show;
-  }
-
-  private updateShowEntity(
-    showData: ShowDataDto,
-    show: ShowOrmEntity,
-  ): ShowOrmEntity {
-    show.title = showData.title;
-    show.description = showData.description;
-    show.numberOfSeasons = showData.numberOfSeasons;
-    show.posterURL =
-      this.configService.get<string>('TMDB_API_IMAGE_URL') + showData.posterURL;
-    show.tmdbId = showData.tmdbId;
-    show.genres = showData.genres;
-    return show;
   }
 }
