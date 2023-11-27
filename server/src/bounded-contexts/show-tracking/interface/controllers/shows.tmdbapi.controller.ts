@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { TmdbApiAdapter } from '../../infrastructure/tmdb-api/shows.tmdbapi.adapter';
 
+// Abstracting the TMDB API to avoid exposing API keys in front-end
 @Controller('tmdbapi')
 export class TMDBAPIController {
   constructor(readonly tmdbApiAdapter: TmdbApiAdapter) {}
