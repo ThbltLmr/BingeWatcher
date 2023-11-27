@@ -3,6 +3,9 @@ import { Repository } from 'typeorm';
 import { ShowOrmEntity } from '../../../../shared-kernel/orm-entities/show.orm-entity';
 import { ConfigService } from '@nestjs/config';
 import { ShowDataDto } from '../../interface/dtos/show-data.dto';
+import { ShowEntity } from '../../domain/entities/show.entity';
+import { ShowTrackingMapper } from './shows.mapper';
+import { GetShowById } from '../queries/get-show-by-id.query';
 
 @Injectable()
 export class ShowsRepository {
@@ -10,18 +13,24 @@ export class ShowsRepository {
     @Inject('SHOW_REPOSITORY')
     private showRepository: Repository<ShowOrmEntity>,
     private configService: ConfigService,
+    private showTrackingMapper: ShowTrackingMapper,
   ) {}
 
-  async findAll(): Promise<ShowOrmEntity[]> {
-    return this.showRepository.find();
+  async findAll(): Promise<ShowEntity[]> {
+    const allOrmEntities = await this.showRepository.find();
+    const allEntities = allOrmEntities.map((ormEntity) => {
+      return this.showTrackingMapper.toEntity(ormEntity);
+    });
+    return allEntities;
   }
 
-  async findOne(id: number): Promise<ShowOrmEntity> {
-    return this.showRepository.findOne({
+  async findOne(query: GetShowById): Promise<ShowEntity> {
+    const showOrmEntity = await this.showRepository.findOne({
       where: {
-        id: id,
+        id: query.id,
       },
     });
+    return this.showTrackingMapper.toEntity(showOrmEntity);
   }
 
   async create(showData: ShowDataDto): Promise<ShowOrmEntity> {

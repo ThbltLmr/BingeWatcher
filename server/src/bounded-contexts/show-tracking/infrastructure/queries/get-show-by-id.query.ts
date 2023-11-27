@@ -1,3 +1,3 @@
 export class GetShowById {
-  id: string;
+  id: number;
 }
