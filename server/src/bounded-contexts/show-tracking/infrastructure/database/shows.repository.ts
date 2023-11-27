@@ -48,10 +48,17 @@ export class ShowsRepository {
     return this.showRepository.save(showOrmEntity);
   }
 
-  async update(id: number, showData: ShowDataDto): Promise<ShowOrmEntity> {
-    const show = await this.findOne(id);
-    this.updateShowEntity(showData, show);
-    return this.showRepository.save(show);
+  async update(command: UpdateShowCommand): Promise<ShowOrmEntity> {
+    const showEntity = await this.findOne({ id: command.id });
+    showEntity.title = command.title;
+    showEntity.description = command.description;
+    showEntity.posterURL = command.posterUrl;
+    showEntity.numberOfSeasons = command.numberOfSeasons;
+    showEntity.tmdbId = command.tmdbId;
+    showEntity.genres = command.genres;
+    const updatedShowOrmEntity =
+      this.showTrackingMapper.toOrmEntity(showEntity);
+    return this.showRepository.save(updatedShowOrmEntity);
   }
 
   async delete(id: number): Promise<any> {
