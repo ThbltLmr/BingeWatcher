@@ -38,17 +38,14 @@ export class ShowsController {
 
   @Post()
   create(@Body() showData: ShowDataDto) {
-    const command = new CreateShowCommand();
-    command.title = showData.title;
-    command.description = showData.description;
+    let command = new CreateShowCommand();
     command.posterUrl = new TmdbPosterUrl(
       this.configService.get<string>('TMDB_API_IMAGE_URL') + showData.posterUrl,
     );
-    command.numberOfSeasons = showData.numberOfSeasons;
-    command.tmdbId = showData.tmdbId;
     command.genres = showData.genres.map((genre) => {
       return new Genre(genre);
     });
+    command = { ...showData, ...command };
     return this.showsRepository.create(command);
   }
 
