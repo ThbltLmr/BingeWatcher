@@ -11,6 +11,7 @@ export class TmdbApiAdapter {
   constructor(
     private configService: ConfigService,
     private readonly httpService: HttpService,
+    priva
   ) {
     this.tmdbAPIKey = this.configService.get<string>('TMDB_API_KEY');
     this.tmdbAPIURL = this.configService.get<string>('TMDB_API_URL');

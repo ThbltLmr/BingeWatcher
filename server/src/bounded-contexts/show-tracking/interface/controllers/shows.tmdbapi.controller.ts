@@ -22,4 +22,3 @@ export class TMDBAPIController {
     return this.tmdbApiAdapter.getShow(query);
   }
 }
-
