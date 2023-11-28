@@ -4,6 +4,7 @@ import { AuthService } from '../../../../shared-kernel/authentication/services/a
 import { WatchedShowsService } from '../../infrastructure/database/watched-shows.repository';
 import { WatchedShowDataDto } from '../dtos/watched-show-data.dto';
 
+// TODO
 @Controller('watchedshows')
 export class WatchedShowsController {
   constructor(
