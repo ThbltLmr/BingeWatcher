@@ -12,6 +12,7 @@ export class UserRegistrationMapper {
   }
   toEntity(userOrmEntity: UserOrmEntity): UserEntity {
     const user = new UserEntity();
+    user.id = userOrmEntity.id;
     user.username = userOrmEntity.username;
     user.password = userOrmEntity.password;
     user.email = new Email(userOrmEntity.email);
