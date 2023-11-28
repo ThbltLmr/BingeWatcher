@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { ShowOrmEntity } from '../../../../shared-kernel/orm-entities/show.orm-entity';
 import { ConfigService } from '@nestjs/config';
 import { ShowEntity } from '../../domain/entities/show.entity';
@@ -48,17 +48,13 @@ export class ShowsRepository {
     return this.showRepository.save(showOrmEntity);
   }
 
-  async update(command: UpdateShowCommand): Promise<ShowOrmEntity> {
+  async update(command: UpdateShowCommand): Promise<UpdateResult> {
     const showEntity = await this.findOne({ id: command.id });
-    showEntity.title = command.title;
-    showEntity.description = command.description;
-    showEntity.posterURL = command.posterUrl;
-    showEntity.numberOfSeasons = command.numberOfSeasons;
-    showEntity.tmdbId = command.tmdbId;
-    showEntity.genres = command.genres;
-    const updatedShowOrmEntity =
-      this.showTrackingMapper.toOrmEntity(showEntity);
-    return this.showRepository.save(updatedShowOrmEntity);
+    const updatedShowOrmEntity = this.showTrackingMapper.toOrmEntity({
+      ...showEntity,
+      ...command,
+    });
+    return this.showRepository.update(command.id, updatedShowOrmEntity);
   }
 
   async delete(command: DeleteShowCommand): Promise<any> {

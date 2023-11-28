@@ -54,18 +54,20 @@ export class ShowsController {
 
   @Patch(':id')
   update(@Param() params: any, @Body() showData: ShowDataDto) {
-    const command = new UpdateShowCommand();
+    let command = new UpdateShowCommand();
     command.id = params.id;
-    command.title = showData.title;
-    command.description = showData.description;
-    command.posterUrl = new TmdbPosterUrl(
-      this.configService.get<string>('TMDB_API_IMAGE_URL') + showData.posterUrl,
-    );
-    command.numberOfSeasons = showData.numberOfSeasons;
-    command.tmdbId = showData.tmdbId;
-    command.genres = showData.genres.map((genre) => {
-      return new Genre(genre);
-    });
+    if (showData.posterUrl) {
+      command.posterUrl = new TmdbPosterUrl(
+        this.configService.get<string>('TMDB_API_IMAGE_URL') +
+          showData.posterUrl,
+      );
+    }
+    if (showData.genres) {
+      command.genres = showData.genres.map((genre) => {
+        return new Genre(genre);
+      });
+    }
+    command = { ...showData, ...command };
     return this.showsRepository.update(command);
   }
 

@@ -2,6 +2,7 @@ import { ShowEntity } from './show.entity';
 import { UserEntity } from './user.entity';
 
 export class WatchedShowEntity {
+  id: number;
   show: ShowEntity;
   user: UserEntity;
   seasonsWatched: number;

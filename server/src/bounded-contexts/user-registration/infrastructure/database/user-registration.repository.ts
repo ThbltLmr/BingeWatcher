@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { UserOrmEntity } from '../../../../shared-kernel/orm-entities/user.orm-entity';
 import { UserRegistrationMapper } from './user-registration.mapper';
 import { UserEntity } from '../../domain/entities/user.entity';
@@ -54,7 +54,7 @@ export class UsersRepository {
     return this.usersRepository.save(userOrmEntity);
   }
 
-  async update(command: UpdateUserCommand): Promise<UserOrmEntity> {
+  async update(command: UpdateUserCommand): Promise<UpdateResult> {
     const userOrmEntity = await this.usersRepository.findOne({
       where: {
         id: command.id,
@@ -66,8 +66,7 @@ export class UsersRepository {
     userEntity.email = command.email;
     const updatedUserOrmEntity =
       this.userRegistrationMapper.toOrmEntity(userEntity);
-    updatedUserOrmEntity.id = command.id;
-    return this.usersRepository.save(updatedUserOrmEntity);
+    return this.usersRepository.update(command.id, updatedUserOrmEntity);
   }
 
   async delete(command: DeleteUserCommand): Promise<DeleteResult> {

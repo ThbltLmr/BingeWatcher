@@ -6,6 +6,7 @@ import { TmdbPosterUrl } from '../../domain/value-objects/tmdb-poster-url.value-
 export class ShowTrackingMapper {
   toOrmEntity(show: ShowEntity): ShowOrmEntity {
     const ormEntity = new ShowOrmEntity();
+    ormEntity.id = show.id;
     ormEntity.title = show.title;
     ormEntity.description = show.description;
     ormEntity.posterURL = show.posterURL.value;
@@ -16,6 +17,7 @@ export class ShowTrackingMapper {
   }
   toEntity(showOrmEntity: ShowOrmEntity): ShowEntity {
     const show = new ShowEntity();
+    show.id = showOrmEntity.id;
     show.title = showOrmEntity.title;
     show.description = showOrmEntity.description;
     show.posterURL = new TmdbPosterUrl(showOrmEntity.posterURL);
