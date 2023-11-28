@@ -8,10 +8,14 @@ import { TMDBAPIController } from './interface/controllers/shows.tmdbapi.control
 import { HttpModule } from '@nestjs/axios';
 import { ShowTrackingMapper } from './infrastructure/database/shows.mapper';
 import { TmdbApiMapper } from './infrastructure/tmdb-api/shows.tmdbapi.mapper';
+import { userProviders } from 'src/shared-kernel/orm-repositories/users.orm-repository';
+import { watchedShowProviders } from 'src/shared-kernel/orm-repositories/watched-shows.orm-repository';
 
 @Module({
   imports: [DatabaseModule, HttpModule],
   providers: [
+    ...userProviders,
+    ...watchedShowProviders,
     ...showProviders,
     ShowsRepository,
     TmdbApiAdapter,
@@ -20,4 +24,4 @@ import { TmdbApiMapper } from './infrastructure/tmdb-api/shows.tmdbapi.mapper';
   ],
   controllers: [ShowsController, TMDBAPIController],
 })
-export class ShowsModule {}
+export class ShowTrackingModule {}

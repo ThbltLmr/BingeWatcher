@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { WatchedShowOrmEntity } from '../../shared-kernel/orm-entities/watched-show.orm-entity';
-import { ShowOrmEntity } from '../../shared-kernel/orm-entities/show.orm-entity';
-import { UserOrmEntity } from '../../shared-kernel/orm-entities/user.orm-entity';
+import { WatchedShowOrmEntity } from '../../../../shared-kernel/orm-entities/watched-show.orm-entity';
+import { ShowOrmEntity } from '../../../../shared-kernel/orm-entities/show.orm-entity';
+import { UserOrmEntity } from '../../../../shared-kernel/orm-entities/user.orm-entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
