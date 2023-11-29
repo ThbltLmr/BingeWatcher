@@ -10,7 +10,7 @@ export class WatchedShowsRepository {
     @Inject('WATCHED_SHOW_REPOSITORY')
     private watchedShowsRepository: Repository<WatchedShowOrmEntity>,
     @Inject('SHOW_REPOSITORY')
-    private showsRepository: Repository<ShowOrmEntity>,
+    private showsOrmRepository: Repository<ShowOrmEntity>,
     @Inject('USER_REPOSITORY')
     private usersRepository: Repository<UserOrmEntity>,
   ) {}
@@ -25,7 +25,7 @@ export class WatchedShowsRepository {
         id: userId,
       },
     });
-    const show = await this.showsRepository.findOne({
+    const show = await this.showsOrmRepository.findOne({
       where: {
         tmdbId: showtmdbId,
       },
