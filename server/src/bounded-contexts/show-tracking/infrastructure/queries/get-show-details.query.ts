@@ -1,3 +1,3 @@
 export class GetShowDetailsQuery {
-  tmdbId: string;
+  tmdbId: number;
 }
