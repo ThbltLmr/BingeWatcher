@@ -18,7 +18,7 @@ import { ShowTrackingMapper } from '../../infrastructure/database/shows.mapper';
 export class WatchedShowsController {
   constructor(
     private authService: AuthService,
-    private watchedShowsSRepository: WatchedShowsRepository,
+    private watchedShowsRepository: WatchedShowsRepository,
     private usersMapper: UsersMapper,
     private usersOrmRepository: Repository<UserOrmEntity>,
     private showsOrmRepository: Repository<ShowOrmEntity>,
@@ -62,7 +62,7 @@ export class WatchedShowsController {
       watchedSeasons: watchedShowData.numberOfSeasonsWatched,
     };
 
-    return this.watchedShowsSRepository.create(createWatchedShowCommand);
+    return this.watchedShowsRepository.create(createWatchedShowCommand);
   }
 
   private async createShowCommandFromTmdbId(

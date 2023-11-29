@@ -3,6 +3,9 @@ import { WatchedShowOrmEntity } from '../../../../shared-kernel/orm-entities/wat
 import { ShowOrmEntity } from '../../../../shared-kernel/orm-entities/show.orm-entity';
 import { UserOrmEntity } from '../../../../shared-kernel/orm-entities/user.orm-entity';
 import { Repository } from 'typeorm';
+import { CreateWatchedShowCommand } from '../commands/create-watched-show.command';
+import { UsersMapper } from './users.mapper';
+import { ShowTrackingMapper } from './shows.mapper';
 
 @Injectable()
 export class WatchedShowsRepository {
@@ -13,30 +16,15 @@ export class WatchedShowsRepository {
     private showsOrmRepository: Repository<ShowOrmEntity>,
     @Inject('USER_REPOSITORY')
     private usersRepository: Repository<UserOrmEntity>,
+    private usersMapper: UsersMapper,
+    private showsMapper: ShowTrackingMapper,
   ) {}
 
-  async addWatchedShow(
-    userId: number,
-    showtmdbId: number,
-    numberOfSeasonsWatched: number,
-  ) {
-    const user = await this.usersRepository.findOne({
-      where: {
-        id: userId,
-      },
-    });
-    const show = await this.showsOrmRepository.findOne({
-      where: {
-        tmdbId: showtmdbId,
-      },
-    });
-    if (!show) {
-      //TODO: create show
-    }
+  async create(command: CreateWatchedShowCommand) {
     const watchedShow = new WatchedShowOrmEntity();
-    watchedShow.user = user;
-    watchedShow.show = show;
-    watchedShow.watchedSeasons = numberOfSeasonsWatched;
+    watchedShow.show = this.showsMapper.toOrmEntity(command.show);
+    watchedShow.user = this.usersMapper.toOrmEntity(command.user);
+    watchedShow.watchedSeasons = command.watchedSeasons;
     return this.watchedShowsRepository.save(watchedShow);
   }
 }
