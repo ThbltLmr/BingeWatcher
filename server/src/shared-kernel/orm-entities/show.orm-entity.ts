@@ -13,7 +13,7 @@ export class ShowOrmEntity {
   description: string;
 
   @Column('text', { nullable: true })
-  posterURL: string;
+  posterUrl: string;
 
   @Column('int', { nullable: true })
   numberOfSeasons: number;

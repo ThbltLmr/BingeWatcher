@@ -20,6 +20,10 @@ export class WatchedShowsRepository {
     private showsMapper: ShowTrackingMapper,
   ) {}
 
+  async findAll() {
+    return this.watchedShowsRepository.find();
+  }
+
   async create(command: CreateWatchedShowCommand) {
     const watchedShow = new WatchedShowOrmEntity();
     watchedShow.show = this.showsMapper.toOrmEntity(command.show);

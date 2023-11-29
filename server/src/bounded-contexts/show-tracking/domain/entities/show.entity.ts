@@ -5,7 +5,7 @@ export class ShowEntity {
   id: number;
   title: string;
   description: string;
-  posterURL: TmdbPosterUrl;
+  posterUrl: TmdbPosterUrl;
   numberOfSeasons: number;
   tmdbId: number;
   genres: Genre[];

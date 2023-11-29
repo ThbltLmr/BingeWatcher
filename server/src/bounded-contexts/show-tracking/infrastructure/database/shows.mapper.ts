@@ -9,7 +9,7 @@ export class ShowTrackingMapper {
     ormEntity.id = show.id;
     ormEntity.title = show.title;
     ormEntity.description = show.description;
-    ormEntity.posterURL = show.posterURL.value;
+    ormEntity.posterUrl = show.posterUrl.value;
     ormEntity.numberOfSeasons = show.numberOfSeasons;
     ormEntity.tmdbId = show.tmdbId;
     ormEntity.genres = show.genres.map((genre) => genre.name);
@@ -20,7 +20,7 @@ export class ShowTrackingMapper {
     show.id = showOrmEntity.id;
     show.title = showOrmEntity.title;
     show.description = showOrmEntity.description;
-    show.posterURL = new TmdbPosterUrl(showOrmEntity.posterURL);
+    show.posterUrl = new TmdbPosterUrl(showOrmEntity.posterUrl);
     show.numberOfSeasons = showOrmEntity.numberOfSeasons;
     show.tmdbId = showOrmEntity.tmdbId;
     show.genres = showOrmEntity.genres.map((genre) => new Genre(genre));

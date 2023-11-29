@@ -24,7 +24,7 @@ export class TmdbApiMapper {
       showEntity.tmdbId = result.id;
       showEntity.title = result.original_name;
       showEntity.description = result.overview;
-      showEntity.posterURL = new TmdbPosterUrl(
+      showEntity.posterUrl = new TmdbPosterUrl(
         this.tmdImageURL + result.poster_path,
       );
       showEntity.numberOfSeasons = await this.getShowNumberofSeasons(result.id);
@@ -32,7 +32,6 @@ export class TmdbApiMapper {
       return showEntity;
     });
     const resolvedShowEntities = await Promise.all(showEntities);
-    console.log(resolvedShowEntities);
     return resolvedShowEntities;
   }
 
@@ -41,14 +40,13 @@ export class TmdbApiMapper {
     showEntity.tmdbId = result.id;
     showEntity.title = result.original_name;
     showEntity.description = result.overview;
-    showEntity.posterURL = new TmdbPosterUrl(
+    showEntity.posterUrl = new TmdbPosterUrl(
       this.tmdImageURL + result.poster_path,
     );
     showEntity.numberOfSeasons = result.number_of_seasons;
     showEntity.genres = result.genres.map((genre: any) => {
       return new Genre(genre.name);
     });
-    console.log(showEntity);
     return showEntity;
   }
 

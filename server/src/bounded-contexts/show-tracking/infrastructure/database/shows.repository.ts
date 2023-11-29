@@ -40,7 +40,7 @@ export class ShowsRepository {
     const showEntity = new ShowEntity();
     showEntity.title = command.title;
     showEntity.description = command.description;
-    showEntity.posterURL = command.posterUrl;
+    showEntity.posterUrl = command.posterUrl;
     showEntity.numberOfSeasons = command.numberOfSeasons;
     showEntity.tmdbId = command.tmdbId;
     showEntity.genres = command.genres;

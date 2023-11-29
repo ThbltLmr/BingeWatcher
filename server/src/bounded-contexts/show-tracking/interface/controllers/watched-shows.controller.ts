@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '../../../../shared-kernel/authentication/guards/auth.guard';
 import { AuthService } from '../../../../shared-kernel/authentication/services/auth.service';
 import { WatchedShowsRepository } from '../../infrastructure/database/watched-shows.repository';
@@ -12,6 +20,7 @@ import { CreateShowCommand } from '../../infrastructure/commands/create-show.com
 import { TmdbApiAdapter } from '../../infrastructure/tmdb-api/shows.tmdbapi.adapter';
 import { CreateWatchedShowCommand } from '../../infrastructure/commands/create-watched-show.command';
 import { ShowTrackingMapper } from '../../infrastructure/database/shows.mapper';
+import { ShowEntity } from '../../domain/entities/show.entity';
 
 // TODO
 @Controller('watchedshows')
@@ -20,12 +29,20 @@ export class WatchedShowsController {
     private authService: AuthService,
     private watchedShowsRepository: WatchedShowsRepository,
     private usersMapper: UsersMapper,
+    @Inject('USER_REPOSITORY')
     private usersOrmRepository: Repository<UserOrmEntity>,
+    @Inject('SHOW_REPOSITORY')
     private showsOrmRepository: Repository<ShowOrmEntity>,
     private showsRepository: ShowsRepository,
     private tmdbApiAdapter: TmdbApiAdapter,
     private showsMapper: ShowTrackingMapper,
   ) {}
+
+  @UseGuards(AuthGuard)
+  @Get('all')
+  async findAll() {
+    return this.watchedShowsRepository.findAll();
+  }
 
   @UseGuards(AuthGuard)
   @Post('add')
@@ -40,29 +57,39 @@ export class WatchedShowsController {
       },
     });
     const userEntity = this.usersMapper.toEntity(userOrmEntity);
-    let show = await this.showsOrmRepository
-      .findOne({
-        where: {
-          tmdbId: watchedShowData.tmdbId,
-        },
-      })
-      .then((show) => this.showsMapper.toEntity(show));
 
-    if (!show) {
+    const createWatchedShowCommand: CreateWatchedShowCommand = {
+      user: userEntity,
+      watchedSeasons: watchedShowData.numberOfSeasonsWatched,
+      show: new ShowEntity(),
+    };
+
+    if (await this.showExistsInDatabase(watchedShowData.tmdbId)) {
+      createWatchedShowCommand.show = await this.showsOrmRepository
+        .findOne({
+          where: {
+            tmdbId: watchedShowData.tmdbId,
+          },
+        })
+        .then((show) => this.showsMapper.toEntity(show));
+    } else {
       const createShowCommand: CreateShowCommand =
         await this.createShowCommandFromTmdbId(watchedShowData.tmdbId);
       const showOrmEntity =
         await this.showsRepository.create(createShowCommand);
-      show = this.showsMapper.toEntity(showOrmEntity);
+      createWatchedShowCommand.show = this.showsMapper.toEntity(showOrmEntity);
     }
 
-    const createWatchedShowCommand: CreateWatchedShowCommand = {
-      user: userEntity,
-      show: show,
-      watchedSeasons: watchedShowData.numberOfSeasonsWatched,
-    };
-
     return this.watchedShowsRepository.create(createWatchedShowCommand);
+  }
+
+  private async showExistsInDatabase(tmdbId: number) {
+    const show = await this.showsOrmRepository.findOne({
+      where: {
+        tmdbId: tmdbId,
+      },
+    });
+    return show != null;
   }
 
   private async createShowCommandFromTmdbId(
