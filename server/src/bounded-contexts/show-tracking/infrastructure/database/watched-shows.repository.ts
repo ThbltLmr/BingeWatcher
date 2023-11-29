@@ -5,7 +5,7 @@ import { UserOrmEntity } from '../../../../shared-kernel/orm-entities/user.orm-e
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class WatchedShowsService {
+export class WatchedShowsRepository {
   constructor(
     @Inject('WATCHED_SHOW_REPOSITORY')
     private watchedShowsRepository: Repository<WatchedShowOrmEntity>,
