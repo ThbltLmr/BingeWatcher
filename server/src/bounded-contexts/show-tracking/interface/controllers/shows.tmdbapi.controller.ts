@@ -18,7 +18,7 @@ export class TMDBAPIController {
   @Get('show')
   async getShow(@Query('id') tmdbId: string) {
     const query = new GetShowDetailsQuery();
-    query.tmdbId = tmdbId;
+    query.tmdbId = parseInt(tmdbId);
     return this.tmdbApiAdapter.getShow(query);
   }
 }
