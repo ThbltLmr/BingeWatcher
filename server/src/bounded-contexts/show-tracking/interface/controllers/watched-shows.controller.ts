@@ -40,11 +40,13 @@ export class WatchedShowsController {
       },
     });
     const userEntity = this.usersMapper.toEntity(userOrmEntity);
-    let show = await this.showsOrmRepository.findOne({
-      where: {
-        tmdbId: watchedShowData.tmdbId,
-      },
-    });
+    let show = await this.showsOrmRepository
+      .findOne({
+        where: {
+          tmdbId: watchedShowData.tmdbId,
+        },
+      })
+      .then((show) => this.showsMapper.toEntity(show));
 
     if (!show) {
       const createShowCommand: CreateShowCommand =
@@ -57,14 +59,10 @@ export class WatchedShowsController {
     const createWatchedShowCommand: CreateWatchedShowCommand = {
       user: userEntity,
       show: show,
-      numberOfSeasonsWatched: watchedShowData.numberOfSeasonsWatched,
+      watchedSeasons: watchedShowData.numberOfSeasonsWatched,
     };
 
-    return this.watchedShowsSRepository.addWatchedShow(
-      userId,
-      watchedShowData.tmdbId,
-      watchedShowData.numberOfSeasonsWatched,
-    );
+    return this.watchedShowsSRepository.create(createWatchedShowCommand);
   }
 
   private async createShowCommandFromTmdbId(
