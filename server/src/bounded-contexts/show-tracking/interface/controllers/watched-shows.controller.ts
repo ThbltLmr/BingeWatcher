@@ -21,6 +21,7 @@ import { TmdbApiAdapter } from '../../infrastructure/tmdb-api/shows.tmdbapi.adap
 import { CreateWatchedShowCommand } from '../../infrastructure/commands/create-watched-show.command';
 import { ShowTrackingMapper } from '../../infrastructure/database/shows.mapper';
 import { ShowEntity } from '../../domain/entities/show.entity';
+import { GetUserWatchedShowsQuery } from '../../infrastructure/queries/get-user-watched-shows.query';
 
 // TODO
 @Controller('watchedshows')
@@ -54,7 +55,9 @@ export class WatchedShowsController {
       },
     });
     const userEntity = this.usersMapper.toEntity(userOrmEntity);
-    return this.watchedShowsRepository.findUserWatchedShows(userEntity);
+    const query = new GetUserWatchedShowsQuery();
+    query.user = userEntity;
+    return this.watchedShowsRepository.findUserWatchedShows(query);
   }
 
   @UseGuards(AuthGuard)
