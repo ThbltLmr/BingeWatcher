@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { WatchedShowOrmEntity } from '../../../../shared-kernel/orm-entities/watched-show.orm-entity';
 import { ShowOrmEntity } from '../../../../shared-kernel/orm-entities/show.orm-entity';
 import { UserOrmEntity } from '../../../../shared-kernel/orm-entities/user.orm-entity';
-import { Repository, Equal } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateWatchedShowCommand } from '../commands/create-watched-show.command';
 import { UsersMapper } from './users.mapper';
 import { ShowTrackingMapper } from './shows.mapper';
@@ -24,7 +24,9 @@ export class WatchedShowsRepository {
   ) {}
 
   async findAll() {
-    return this.watchedShowsRepository.find();
+    return this.watchedShowsRepository.find({
+      relations: ['user', 'show'],
+    });
   }
 
   async create(command: CreateWatchedShowCommand) {
@@ -44,9 +46,11 @@ export class WatchedShowsRepository {
 
     const WatchedShowsOrmEntities = await this.watchedShowsRepository.find({
       where: {
-        user: Equal(userOrmEntity),
+        user: userOrmEntity as any,
       },
+      relations: ['user', 'show'],
     });
+
     const watchedShowsEntities = WatchedShowsOrmEntities.map((ormEntity) => {
       return this.watchedShowsMapper.toEntity(ormEntity);
     });
