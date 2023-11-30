@@ -45,6 +45,19 @@ export class WatchedShowsController {
   }
 
   @UseGuards(AuthGuard)
+  @Get()
+  async findUserWatchedShows(@Request() req) {
+    const userId = req.user.sub;
+    const userOrmEntity = await this.usersOrmRepository.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    const userEntity = this.usersMapper.toEntity(userOrmEntity);
+    return this.watchedShowsRepository.findUserWatchedShows(userEntity);
+  }
+
+  @UseGuards(AuthGuard)
   @Post('add')
   async addWatchedShow(
     @Request() req,
