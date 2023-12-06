@@ -4,6 +4,7 @@ import {
   Get,
   Inject,
   Post,
+  Req,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -21,6 +22,7 @@ import { CreateWatchedShowCommand } from '../../infrastructure/commands/create-w
 import { ShowTrackingMapper } from '../../infrastructure/database/shows.mapper';
 import { ShowEntity } from '../../domain/entities/show.entity';
 import { GetUserWatchedShowsQuery } from '../../infrastructure/queries/get-user-watched-shows.query';
+import { UpdateWatchedShowDto } from '../dtos/update-watched-show.dto';
 
 // TODO
 @Controller('watchedshows')
@@ -103,6 +105,18 @@ export class WatchedShowsController {
       },
     });
     return show != null;
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('update')
+  async updateWatchedShow(@Body() watchedShowData: UpdateWatchedShowDto) {
+    const watchedShow = await this.watchedShowsRepository.findOne({
+      where: {
+        id: watchedShowData.id,
+      },
+    });
+    watchedShow.watchedSeasons = watchedShowData.numberOfSeasonsWatched;
+    return this.watchedShowsRepository.update(watchedShow);
   }
 
   private async createShowCommandFromTmdbId(
