@@ -4,7 +4,6 @@ import {
   Get,
   Inject,
   Post,
-  Req,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -24,7 +23,6 @@ import { ShowEntity } from '../../domain/entities/show.entity';
 import { GetUserWatchedShowsQuery } from '../../infrastructure/queries/get-user-watched-shows.query';
 import { UpdateWatchedShowDto } from '../dtos/update-watched-show.dto';
 import { GetWatchedShowQuery } from '../../infrastructure/queries/get-watched-show.query';
-import { UpdateShowCommand } from '../../infrastructure/commands/update-show.command';
 import { UpdateWatchedShowCommand } from '../../infrastructure/commands/update-watched-show.command';
 
 // TODO
