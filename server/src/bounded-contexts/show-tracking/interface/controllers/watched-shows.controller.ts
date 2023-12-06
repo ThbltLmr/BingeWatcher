@@ -8,7 +8,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '../../../../shared-kernel/authentication/guards/auth.guard';
-import { AuthService } from '../../../../shared-kernel/authentication/services/auth.service';
 import { WatchedShowsRepository } from '../../infrastructure/database/watched-shows.repository';
 import { WatchedShowDataDto } from '../dtos/watched-show-data.dto';
 import { Repository } from 'typeorm';
@@ -27,19 +26,17 @@ import { GetUserWatchedShowsQuery } from '../../infrastructure/queries/get-user-
 @Controller('watchedshows')
 export class WatchedShowsController {
   constructor(
-    private authService: AuthService,
-    private watchedShowsRepository: WatchedShowsRepository,
-    private usersMapper: UsersMapper,
     @Inject('USER_REPOSITORY')
     private usersOrmRepository: Repository<UserOrmEntity>,
     @Inject('SHOW_REPOSITORY')
     private showsOrmRepository: Repository<ShowOrmEntity>,
+    private watchedShowsRepository: WatchedShowsRepository,
     private showsRepository: ShowsRepository,
     private tmdbApiAdapter: TmdbApiAdapter,
     private showsMapper: ShowTrackingMapper,
+    private usersMapper: UsersMapper,
   ) {}
 
-  @UseGuards(AuthGuard)
   @Get('all')
   async findAll() {
     return this.watchedShowsRepository.findAll();
