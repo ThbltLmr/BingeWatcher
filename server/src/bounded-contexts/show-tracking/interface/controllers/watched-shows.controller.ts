@@ -116,7 +116,7 @@ export class WatchedShowsController {
       },
     });
     watchedShow.watchedSeasons = watchedShowData.numberOfSeasonsWatched;
-    return this.watchedShowsRepository.update(watchedShow);
+    return this.watchedShowsRepository.update({ watchedShow });
   }
 
   private async createShowCommandFromTmdbId(
