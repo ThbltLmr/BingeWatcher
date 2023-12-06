@@ -9,6 +9,7 @@ import { ShowTrackingMapper } from './shows.mapper';
 import { GetUserWatchedShowsQuery } from '../queries/get-user-watched-shows.query';
 import { WatchedShowsMapper } from './watched-shows.mapper';
 import { UpdateWatchedShowCommand } from '../commands/update-watched-show.command';
+import { GetWatchedShowQuery } from '../queries/get-watched-show.query';
 
 @Injectable()
 export class WatchedShowsRepository {
@@ -56,6 +57,15 @@ export class WatchedShowsRepository {
       return this.watchedShowsMapper.toEntity(ormEntity);
     });
     return watchedShowsEntities;
+  }
+
+  async findOne(query: GetWatchedShowQuery) {
+    const watchedShowOrmEntity = await this.watchedShowsRepository.findOne({
+      where: {
+        id: query.id,
+      },
+    });
+    return this.watchedShowsMapper.toEntity(watchedShowOrmEntity);
   }
 
   async update(command: UpdateWatchedShowCommand) {

@@ -23,6 +23,9 @@ import { ShowTrackingMapper } from '../../infrastructure/database/shows.mapper';
 import { ShowEntity } from '../../domain/entities/show.entity';
 import { GetUserWatchedShowsQuery } from '../../infrastructure/queries/get-user-watched-shows.query';
 import { UpdateWatchedShowDto } from '../dtos/update-watched-show.dto';
+import { GetWatchedShowQuery } from '../../infrastructure/queries/get-watched-show.query';
+import { UpdateShowCommand } from '../../infrastructure/commands/update-show.command';
+import { UpdateWatchedShowCommand } from '../../infrastructure/commands/update-watched-show.command';
 
 // TODO
 @Controller('watchedshows')
@@ -110,12 +113,12 @@ export class WatchedShowsController {
   @UseGuards(AuthGuard)
   @Post('update')
   async updateWatchedShow(@Body() watchedShowData: UpdateWatchedShowDto) {
-    const watchedShow = await this.watchedShowsRepository.findOne({
-      where: {
-        id: watchedShowData.id,
-      },
-    });
-    watchedShow.watchedSeasons = watchedShowData.numberOfSeasonsWatched;
+    const query = new GetWatchedShowQuery();
+    query.id = watchedShowData.id;
+    const watchedShow = await this.watchedShowsRepository.findOne(query);
+    watchedShow.seasonsWatched = watchedShowData.numberOfSeasonsWatched;
+    const command = new UpdateWatchedShowCommand();
+    command.watchedShow = watchedShow;
     return this.watchedShowsRepository.update({ watchedShow });
   }
 
