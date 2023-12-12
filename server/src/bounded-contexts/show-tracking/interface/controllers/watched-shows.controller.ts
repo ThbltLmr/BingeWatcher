@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Inject,
+  Param,
   Post,
   Request,
   UseGuards,
@@ -99,6 +100,21 @@ export class WatchedShowsController {
     return this.watchedShowsRepository.create(createWatchedShowCommand);
   }
 
+  @UseGuards(AuthGuard)
+  @Post(':id')
+  async updateWatchedShow(
+    @Param() params: any,
+    @Body() watchedShowData: UpdateWatchedShowDto,
+  ) {
+    const query = new GetWatchedShowQuery();
+    query.id = params.id;
+    const watchedShow = await this.watchedShowsRepository.findOne(query);
+    watchedShow.seasonsWatched = watchedShowData.numberOfSeasonsWatched;
+    const command = new UpdateWatchedShowCommand();
+    command.watchedShow = watchedShow;
+    return this.watchedShowsRepository.update({ watchedShow });
+  }
+
   private async showExistsInDatabase(tmdbId: number) {
     const show = await this.showsOrmRepository.findOne({
       where: {
@@ -106,18 +122,6 @@ export class WatchedShowsController {
       },
     });
     return show != null;
-  }
-
-  @UseGuards(AuthGuard)
-  @Post('update')
-  async updateWatchedShow(@Body() watchedShowData: UpdateWatchedShowDto) {
-    const query = new GetWatchedShowQuery();
-    query.id = watchedShowData.id;
-    const watchedShow = await this.watchedShowsRepository.findOne(query);
-    watchedShow.seasonsWatched = watchedShowData.numberOfSeasonsWatched;
-    const command = new UpdateWatchedShowCommand();
-    command.watchedShow = watchedShow;
-    return this.watchedShowsRepository.update({ watchedShow });
   }
 
   private async createShowCommandFromTmdbId(
