@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -121,6 +122,15 @@ export class WatchedShowsController {
     const query = new GetWatchedShowQuery();
     query.id = params.id;
     const watchedShow = await this.watchedShowsRepository.findOne(query);
+    return watchedShow;
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete(':id')
+  async deleteWatchedShow(@Param() params: any) {
+    const query = new GetWatchedShowQuery();
+    query.id = params.id;
+    const watchedShow = await this.watchedShowsRepository.delete(query);
     return watchedShow;
   }
 
