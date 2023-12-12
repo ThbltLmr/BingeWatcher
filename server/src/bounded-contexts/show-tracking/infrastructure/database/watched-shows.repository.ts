@@ -39,6 +39,8 @@ export class WatchedShowsRepository {
     return this.watchedShowsRepository.save(watchedShow);
   }
 
+  async delete() {}
+
   async findUserWatchedShows(query: GetUserWatchedShowsQuery) {
     const userOrmEntity = await this.usersRepository.findOne({
       where: {
