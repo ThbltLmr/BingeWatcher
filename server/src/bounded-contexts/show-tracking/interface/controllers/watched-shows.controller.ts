@@ -115,6 +115,15 @@ export class WatchedShowsController {
     return this.watchedShowsRepository.update({ watchedShow });
   }
 
+  @UseGuards(AuthGuard)
+  @Get(':id')
+  async getWatchedShow(@Param() params: any) {
+    const query = new GetWatchedShowQuery();
+    query.id = params.id;
+    const watchedShow = await this.watchedShowsRepository.findOne(query);
+    return watchedShow;
+  }
+
   private async showExistsInDatabase(tmdbId: number) {
     const show = await this.showsOrmRepository.findOne({
       where: {
