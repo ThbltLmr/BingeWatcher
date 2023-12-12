@@ -26,6 +26,7 @@ import { GetUserWatchedShowsQuery } from '../../infrastructure/queries/get-user-
 import { UpdateWatchedShowDto } from '../dtos/update-watched-show.dto';
 import { GetWatchedShowQuery } from '../../infrastructure/queries/get-watched-show.query';
 import { UpdateWatchedShowCommand } from '../../infrastructure/commands/update-watched-show.command';
+import { DeleteWatchedShowCommand } from '../../infrastructure/commands/delete-watched-show.command';
 
 // TODO
 @Controller('watchedshows')
@@ -128,9 +129,9 @@ export class WatchedShowsController {
   @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteWatchedShow(@Param() params: any) {
-    const query = new GetWatchedShowQuery();
-    query.id = params.id;
-    const watchedShow = await this.watchedShowsRepository.delete(query);
+    const command = new DeleteWatchedShowCommand();
+    command.id = params.id;
+    const watchedShow = await this.watchedShowsRepository.delete(command);
     return watchedShow;
   }
 
