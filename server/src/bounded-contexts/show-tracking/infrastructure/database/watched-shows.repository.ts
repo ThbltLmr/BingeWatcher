@@ -10,6 +10,7 @@ import { GetUserWatchedShowsQuery } from '../queries/get-user-watched-shows.quer
 import { WatchedShowsMapper } from './watched-shows.mapper';
 import { UpdateWatchedShowCommand } from '../commands/update-watched-show.command';
 import { GetWatchedShowQuery } from '../queries/get-watched-show.query';
+import { DeleteWatchedShowCommand } from '../commands/delete-watched-show.command';
 
 @Injectable()
 export class WatchedShowsRepository {
@@ -39,7 +40,9 @@ export class WatchedShowsRepository {
     return this.watchedShowsRepository.save(watchedShow);
   }
 
-  async delete() {}
+  async delete(command: DeleteWatchedShowCommand) {
+    return this.watchedShowsRepository.delete(command.id);
+  }
 
   async findUserWatchedShows(query: GetUserWatchedShowsQuery) {
     const userOrmEntity = await this.usersRepository.findOne({
