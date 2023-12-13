@@ -28,7 +28,6 @@ import { GetWatchedShowQuery } from '../../infrastructure/queries/get-watched-sh
 import { UpdateWatchedShowCommand } from '../../infrastructure/commands/update-watched-show.command';
 import { DeleteWatchedShowCommand } from '../../infrastructure/commands/delete-watched-show.command';
 
-// TODO
 @Controller('watchedshows')
 export class WatchedShowsController {
   constructor(
