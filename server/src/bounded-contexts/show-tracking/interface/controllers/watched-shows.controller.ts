@@ -14,7 +14,6 @@ import { WatchedShowsRepository } from '../../infrastructure/database/watched-sh
 import { WatchedShowDataDto } from '../dtos/watched-show-data.dto';
 import { Repository } from 'typeorm';
 import { UserOrmEntity } from 'src/shared-kernel/orm-entities/user.orm-entity';
-import { UsersMapper } from '../../infrastructure/database/users.mapper';
 import { ShowOrmEntity } from 'src/shared-kernel/orm-entities/show.orm-entity';
 import { ShowsRepository } from '../../infrastructure/database/shows.repository';
 import { CreateShowCommand } from '../../infrastructure/commands/create-show.command';
@@ -27,6 +26,8 @@ import { UpdateWatchedShowDto } from '../dtos/update-watched-show.dto';
 import { GetWatchedShowQuery } from '../../infrastructure/queries/get-watched-show.query';
 import { UpdateWatchedShowCommand } from '../../infrastructure/commands/update-watched-show.command';
 import { DeleteWatchedShowCommand } from '../../infrastructure/commands/delete-watched-show.command';
+import { GetUserByIdQuery } from '../../infrastructure/queries/get-user-by-id.query';
+import { UsersRepository } from '../../infrastructure/database/users.repository';
 
 @Controller('watchedshows')
 export class WatchedShowsController {
@@ -36,10 +37,10 @@ export class WatchedShowsController {
     @Inject('SHOW_REPOSITORY')
     private showsOrmRepository: Repository<ShowOrmEntity>,
     private watchedShowsRepository: WatchedShowsRepository,
+    private usersRepository: UsersRepository,
     private showsRepository: ShowsRepository,
     private tmdbApiAdapter: TmdbApiAdapter,
     private showsMapper: ShowTrackingMapper,
-    private usersMapper: UsersMapper,
   ) {}
 
   // Used in manual testing to check all rows in table
@@ -52,16 +53,12 @@ export class WatchedShowsController {
   @UseGuards(AuthGuard)
   @Get()
   async findUserWatchedShows(@Request() req) {
-    const userId = req.user.sub;
-    const userOrmEntity = await this.usersOrmRepository.findOne({
-      where: {
-        id: userId,
-      },
-    });
-    const userEntity = this.usersMapper.toEntity(userOrmEntity);
-    const query = new GetUserWatchedShowsQuery();
-    query.user = userEntity;
-    return this.watchedShowsRepository.findUserWatchedShows(query);
+    const userQuery = new GetUserByIdQuery();
+    userQuery.id = req.user.sub;
+    const userEntity = await this.usersRepository.findOne(userQuery);
+    const watchedShowsQuery = new GetUserWatchedShowsQuery();
+    watchedShowsQuery.user = userEntity;
+    return this.watchedShowsRepository.findUserWatchedShows(watchedShowsQuery);
   }
 
   @UseGuards(AuthGuard)
@@ -70,13 +67,9 @@ export class WatchedShowsController {
     @Request() req,
     @Body() watchedShowData: WatchedShowDataDto,
   ) {
-    const userId = req.user.sub;
-    const userOrmEntity = await this.usersOrmRepository.findOne({
-      where: {
-        id: userId,
-      },
-    });
-    const userEntity = this.usersMapper.toEntity(userOrmEntity);
+    const userQuery = new GetUserByIdQuery();
+    userQuery.id = req.user.sub;
+    const userEntity = await this.usersRepository.findOne(userQuery);
 
     const createWatchedShowCommand: CreateWatchedShowCommand = {
       user: userEntity,
