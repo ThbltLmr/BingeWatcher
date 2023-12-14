@@ -39,7 +39,7 @@ export default function Carrousel({shows}: {shows: Show[]}){
             {shows.map((show) => {
               return(
                 <div className="width m-2 transition-transform duration-500 ease-in-out" style={{ transform: `translateX(${translateX}px)` }}>
-                  <ShowCard key={show.TMDBid} show={show} />
+                  <ShowCard key={show.tmdbId} show={show} />
                 </div>
               )
             })}

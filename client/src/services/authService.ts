@@ -10,7 +10,13 @@ export function login(
       },
       body: JSON.stringify({username, password}),
     })
-    .then((response) => response.json())
+    .then((response) => {
+      if (response.status === 401) {
+        alert('Invalid credentials')
+        throw new Error('Invalid credentials')
+      }
+      return response.json()
+    })
     .then(data => {localStorage.setItem('token', data.access_token)})
   } catch (error) {
     console.log(error)

@@ -3,10 +3,15 @@ import Typography from '@mui/material/Typography';
 import { login } from '../services/authService';
 import Navbar from "../components/Navbar";
 import { AuthenticationContext } from "../contexts/authContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 export default function Login(){
   const {auth, setAuth} = useContext(AuthenticationContext);
+
+  useEffect(() => {
+    setAuth(false);
+  })
+
   if (auth) {
     return(
       <Navigate to="/shows" />
