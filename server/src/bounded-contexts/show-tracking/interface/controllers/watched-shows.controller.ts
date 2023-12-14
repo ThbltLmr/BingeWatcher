@@ -13,7 +13,6 @@ import { AuthGuard } from '../../../../shared-kernel/authentication/guards/auth.
 import { WatchedShowsRepository } from '../../infrastructure/database/watched-shows.repository';
 import { WatchedShowDataDto } from '../dtos/watched-show-data.dto';
 import { Repository } from 'typeorm';
-import { UserOrmEntity } from 'src/shared-kernel/orm-entities/user.orm-entity';
 import { ShowOrmEntity } from 'src/shared-kernel/orm-entities/show.orm-entity';
 import { ShowsRepository } from '../../infrastructure/database/shows.repository';
 import { CreateShowCommand } from '../../infrastructure/commands/create-show.command';
@@ -32,8 +31,6 @@ import { UsersRepository } from '../../infrastructure/database/users.repository'
 @Controller('watchedshows')
 export class WatchedShowsController {
   constructor(
-    @Inject('USER_REPOSITORY')
-    private usersOrmRepository: Repository<UserOrmEntity>,
     @Inject('SHOW_REPOSITORY')
     private showsOrmRepository: Repository<ShowOrmEntity>,
     private watchedShowsRepository: WatchedShowsRepository,
