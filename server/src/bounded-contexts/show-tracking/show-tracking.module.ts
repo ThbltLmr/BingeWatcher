@@ -16,6 +16,7 @@ import { AuthModule } from 'src/shared-kernel/authentication/auth.module';
 import { WatchedShowsRepository } from './infrastructure/database/watched-shows.repository';
 import { UsersMapper } from './infrastructure/database/users.mapper';
 import { WatchedShowsMapper } from './infrastructure/database/watched-shows.mapper';
+import { UsersRepository } from './infrastructure/database/users.repository';
 
 @Module({
   imports: [DatabaseModule, HttpModule, AuthModule, JwtModule],
@@ -28,6 +29,7 @@ import { WatchedShowsMapper } from './infrastructure/database/watched-shows.mapp
     ShowTrackingMapper,
     TmdbApiMapper,
     WatchedShowsRepository,
+    UsersRepository,
     UsersMapper,
     WatchedShowsMapper,
   ],
