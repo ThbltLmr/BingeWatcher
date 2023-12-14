@@ -42,11 +42,13 @@ export class WatchedShowsController {
     private usersMapper: UsersMapper,
   ) {}
 
+  // Used in manual testing to check all rows in table
   @Get('all')
   async findAll() {
     return this.watchedShowsRepository.findAll();
   }
 
+  // Get a user's watched shows
   @UseGuards(AuthGuard)
   @Get()
   async findUserWatchedShows(@Request() req) {
