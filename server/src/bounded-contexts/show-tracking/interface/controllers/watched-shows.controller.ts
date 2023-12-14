@@ -45,7 +45,6 @@ export class WatchedShowsController {
   @Get()
   async findUserWatchedShows(@Request() req) {
     const userQuery = new GetUserByIdQuery();
-    console.log(req.user);
     userQuery.id = req.user.sub;
     const userEntity = await this.usersRepository.findOne(userQuery);
     const watchedShowsQuery = new GetUserWatchedShowsQuery();

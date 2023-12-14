@@ -8,6 +8,7 @@ export class Genre {
     'Crime',
     'Documentary',
     'Drama',
+    'Family',
     'Kids',
     'Mystery',
     'News',
