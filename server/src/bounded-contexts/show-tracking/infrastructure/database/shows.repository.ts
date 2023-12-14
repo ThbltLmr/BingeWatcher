@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository, UpdateResult } from 'typeorm';
 import { ShowOrmEntity } from '../../../../shared-kernel/orm-entities/show.orm-entity';
-import { ConfigService } from '@nestjs/config';
 import { ShowEntity } from '../../domain/entities/show.entity';
 import { ShowTrackingMapper } from './shows.mapper';
 import { GetShowById } from '../queries/get-show-by-id.query';
@@ -14,7 +13,6 @@ export class ShowsRepository {
   constructor(
     @Inject('SHOW_REPOSITORY')
     private showRepository: Repository<ShowOrmEntity>,
-    private configService: ConfigService,
     private showTrackingMapper: ShowTrackingMapper,
   ) {}
 
