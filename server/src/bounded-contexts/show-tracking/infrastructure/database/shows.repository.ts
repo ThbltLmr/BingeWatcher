@@ -7,6 +7,7 @@ import { GetShowById } from '../queries/get-show-by-id.query';
 import { CreateShowCommand } from '../commands/create-show.command';
 import { UpdateShowCommand } from '../commands/update-show.command';
 import { DeleteShowCommand } from '../commands/delete-show.command';
+import { GetShowByTmdbIdQuery } from '../queries/get-show-by-tmdbid.query';
 
 @Injectable()
 export class ShowsRepository {
@@ -33,7 +34,19 @@ export class ShowsRepository {
     return this.showTrackingMapper.toEntity(showOrmEntity);
   }
 
-  async create(command: CreateShowCommand): Promise<ShowOrmEntity> {
+  async findOneByTmdbId(query: GetShowByTmdbIdQuery): Promise<ShowEntity> {
+    const showOrmEntity = await this.showRepository.findOne({
+      where: {
+        tmdbId: query.tmdbId,
+      },
+    });
+    if (!showOrmEntity) {
+      return null;
+    }
+    return this.showTrackingMapper.toEntity(showOrmEntity);
+  }
+
+  async create(command: CreateShowCommand): Promise<ShowEntity> {
     await this.checkIfShowExists(command.tmdbId);
     const showEntity = new ShowEntity();
     showEntity.title = command.title;
@@ -43,7 +56,8 @@ export class ShowsRepository {
     showEntity.tmdbId = command.tmdbId;
     showEntity.genres = command.genres;
     const showOrmEntity = this.showTrackingMapper.toOrmEntity(showEntity);
-    return this.showRepository.save(showOrmEntity);
+    this.showRepository.save(showOrmEntity);
+    return this.showTrackingMapper.toEntity(showOrmEntity);
   }
 
   async update(command: UpdateShowCommand): Promise<UpdateResult> {

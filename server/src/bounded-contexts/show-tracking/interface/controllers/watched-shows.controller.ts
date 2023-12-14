@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Inject,
   Param,
   Post,
   Request,
@@ -12,13 +11,10 @@ import {
 import { AuthGuard } from '../../../../shared-kernel/authentication/guards/auth.guard';
 import { WatchedShowsRepository } from '../../infrastructure/database/watched-shows.repository';
 import { WatchedShowDataDto } from '../dtos/watched-show-data.dto';
-import { Repository } from 'typeorm';
-import { ShowOrmEntity } from 'src/shared-kernel/orm-entities/show.orm-entity';
 import { ShowsRepository } from '../../infrastructure/database/shows.repository';
 import { CreateShowCommand } from '../../infrastructure/commands/create-show.command';
 import { TmdbApiAdapter } from '../../infrastructure/tmdb-api/shows.tmdbapi.adapter';
 import { CreateWatchedShowCommand } from '../../infrastructure/commands/create-watched-show.command';
-import { ShowTrackingMapper } from '../../infrastructure/database/shows.mapper';
 import { ShowEntity } from '../../domain/entities/show.entity';
 import { GetUserWatchedShowsQuery } from '../../infrastructure/queries/get-user-watched-shows.query';
 import { UpdateWatchedShowDto } from '../dtos/update-watched-show.dto';
@@ -27,17 +23,15 @@ import { UpdateWatchedShowCommand } from '../../infrastructure/commands/update-w
 import { DeleteWatchedShowCommand } from '../../infrastructure/commands/delete-watched-show.command';
 import { GetUserByIdQuery } from '../../infrastructure/queries/get-user-by-id.query';
 import { UsersRepository } from '../../infrastructure/database/users.repository';
+import { GetShowByTmdbIdQuery } from '../../infrastructure/queries/get-show-by-tmdbid.query';
 
 @Controller('watchedshows')
 export class WatchedShowsController {
   constructor(
-    @Inject('SHOW_REPOSITORY')
-    private showsOrmRepository: Repository<ShowOrmEntity>,
     private watchedShowsRepository: WatchedShowsRepository,
     private usersRepository: UsersRepository,
     private showsRepository: ShowsRepository,
     private tmdbApiAdapter: TmdbApiAdapter,
-    private showsMapper: ShowTrackingMapper,
   ) {}
 
   // Used in manual testing to check all rows in table
@@ -75,19 +69,15 @@ export class WatchedShowsController {
     };
 
     if (await this.showExistsInDatabase(watchedShowData.tmdbId)) {
-      createWatchedShowCommand.show = await this.showsOrmRepository
-        .findOne({
-          where: {
-            tmdbId: watchedShowData.tmdbId,
-          },
-        })
-        .then((show) => this.showsMapper.toEntity(show));
+      const showQuery = new GetShowByTmdbIdQuery();
+      showQuery.tmdbId = watchedShowData.tmdbId;
+      createWatchedShowCommand.show =
+        await this.showsRepository.findOneByTmdbId(showQuery);
     } else {
       const createShowCommand: CreateShowCommand =
         await this.createShowCommandFromTmdbId(watchedShowData.tmdbId);
-      const showOrmEntity =
-        await this.showsRepository.create(createShowCommand);
-      createWatchedShowCommand.show = this.showsMapper.toEntity(showOrmEntity);
+      const showEntity = await this.showsRepository.create(createShowCommand);
+      createWatchedShowCommand.show = showEntity;
     }
 
     return this.watchedShowsRepository.create(createWatchedShowCommand);
@@ -127,11 +117,9 @@ export class WatchedShowsController {
   }
 
   private async showExistsInDatabase(tmdbId: number) {
-    const show = await this.showsOrmRepository.findOne({
-      where: {
-        tmdbId: tmdbId,
-      },
-    });
+    const query = new GetShowByTmdbIdQuery();
+    query.tmdbId = tmdbId;
+    const show = await this.showsRepository.findOneByTmdbId(query);
     return show != null;
   }
 
