@@ -20,10 +20,10 @@ export default function AddShow(){
         return {
           title: show.name,
           description: show.overview,
-          posterURL: `https://image.tmdb.org/t/p/w500${show.poster_path}`,
+          posterUrl: show.posterUrl,
           numberOfSeasons: show.number_of_seasons,
-          genres: show.genres_ids,
-          TMDBid: show.id
+          genres: show.genres,
+          tmdbId: show.id
         }
       })
       setSearchResults(results)
