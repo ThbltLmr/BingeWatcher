@@ -1,17 +1,17 @@
-import { Show } from "../types";
+import { WatchedShow } from "../types";
 import { useState } from "react";
 import IconButton from '@mui/material/IconButton';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ShowCard from "./ShowCard";
+import WatchedShowCard from "./WatchedShowCard";
 
-export default function Carrousel({shows}: {shows: Show[]}){
+export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]}){
   const [startIndex, setStartIndex] = useState(0)
-  const [endIndex, setEndIndex] = useState(Math.min(shows.length, 8))
+  const [endIndex, setEndIndex] = useState(Math.min(watchedShows.length, 8))
   const [translateX, setTranslateX] = useState(0)
 
   const previousDisabled = (startIndex === 0)
-  const nextDisabled = (endIndex === shows.length)
+  const nextDisabled = (endIndex === watchedShows.length)
 
   const goToPrevious = () => {
     const cardWidth = document.querySelector(".width").firstChild.scrollWidth
@@ -36,10 +36,10 @@ export default function Carrousel({shows}: {shows: Show[]}){
           </IconButton>
         </div>
           <div className="flex justify-start overflow-hidden w-10/12">
-            {shows.map((show) => {
+            {watchedShows.map((watchedShow) => {
               return(
                 <div className="width m-2 transition-transform duration-500 ease-in-out" style={{ transform: `translateX(${translateX}px)` }}>
-                  <ShowCard key={show.tmdbId} show={show} />
+                  <WatchedShowCard key={watchedShow.show.tmdbId} watchedShow={watchedShow} />
                 </div>
               )
             })}

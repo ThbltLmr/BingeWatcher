@@ -6,3 +6,8 @@ export type Show = {
   tmdbId: number,
   genres: string[],
 }
+
+export type WatchedShow = {
+  show: Show,
+  watchedSeasons: number,
+}

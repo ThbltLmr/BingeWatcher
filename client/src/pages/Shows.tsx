@@ -8,7 +8,7 @@ import { AuthenticationContext } from "../contexts/authContext";
 export default function Shows(){
   const navigate = useNavigate();
   const {auth, setAuth} = useContext(AuthenticationContext);
-  const [shows, setShows] = useState([]);
+  const [watchedShows, setWatchedShows] = useState([]);
 
   useEffect(() => {
     if (!auth) {
@@ -25,9 +25,9 @@ export default function Shows(){
     .then(res => res.json())
     .then(data => {
       const shows = data.map((watchedShow: any) => {
-        return watchedShow.show;
+        return { show: watchedShow.show, watchedSeasons: watchedShow.seasonsWatched };
       });
-      setShows(shows);
+      setWatchedShows(shows);
     })
     .catch(err => {
       console.log(err);
@@ -46,7 +46,7 @@ export default function Shows(){
         <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Track all your favourite shows</Typography>
       </div>
       <div className="m-8">
-        <Carrousel shows={shows} />
+        <Carrousel watchedShows={watchedShows} />
       </div>
       <button onClick={navigateToAddShow} type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-light mx-2 text-3xl py-4 px-8 rounded">Add show</button>
     </div>
