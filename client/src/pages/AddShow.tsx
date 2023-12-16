@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import { Typography } from "@mui/material";
 import { AuthenticationContext } from "../contexts/authContext";
 import { useContext, useState } from "react";
-import ShowCard from "../components/ShowCard";
+import ShowCard from "../components/WatchedShowCard";
 import CenterPopUp from "../components/CenterPopUp";
 
 export default function AddShow(){

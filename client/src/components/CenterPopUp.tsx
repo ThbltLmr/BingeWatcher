@@ -1,5 +1,5 @@
 import { Show } from "../types";
-import ShowCard from "./ShowCard";
+import ShowCard from "./WatchedShowCard";
 
 export default function CenterPopUp({show}: {show: Show}){
   return(
