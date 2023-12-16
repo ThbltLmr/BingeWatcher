@@ -7,7 +7,7 @@ import WatchedShowCard from "./WatchedShowCard";
 
 export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]}){
   const [startIndex, setStartIndex] = useState(0)
-  const [endIndex, setEndIndex] = useState(Math.min(watchedShows.length, 6))
+  const [endIndex, setEndIndex] = useState(Math.min(watchedShows.length -1, 6))
   const [translateX, setTranslateX] = useState(0)
   const [carrouselShows, setCarrouselShows] = useState(watchedShows)
 
@@ -15,8 +15,6 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
     setCarrouselShows(watchedShows);
     setEndIndex(Math.min(watchedShows.length, 6));
   }, [watchedShows]);
-
-  const originalLength = watchedShows.length
 
   const previousDisabled = (startIndex === 0)
 
@@ -28,17 +26,10 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
   }
 
   const goToNext = () => {
-    if (endIndex === carrouselShows.length) {
-      const newCarrouselShows = carrouselShows
-      newCarrouselShows.push(watchedShows[endIndex - originalLength]);
-      console.log(newCarrouselShows);
-      setCarrouselShows(newCarrouselShows);
-    }
     const cardWidth = document.querySelector(".width").firstChild.scrollWidth
     setStartIndex(startIndex + 1)
     setEndIndex(endIndex + 1)
     setTranslateX(translateX - cardWidth)
-    console.log(carrouselShows)
   }
 
   return(
@@ -50,7 +41,7 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
           </IconButton>
         </div>
           <div className="flex justify-start overflow-hidden w-10/12">
-            {carrouselShows.map((watchedShow) => {
+            {carrouselShows.slice(startIndex, endIndex).map((watchedShow) => {
               return(
                 <div className="width w-1/6 p-2 transition-transform duration-500 ease-in-out" style={{ transform: `translateX(${translateX}px)` }}>
                   <WatchedShowCard key={watchedShow.show.tmdbId} watchedShow={watchedShow} />
