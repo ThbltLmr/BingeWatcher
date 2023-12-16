@@ -7,7 +7,7 @@ import WatchedShowCard from "./WatchedShowCard";
 
 export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]}){
   const [startIndex, setStartIndex] = useState(0)
-  const [endIndex, setEndIndex] = useState(Math.min(watchedShows.length, 8))
+  const [endIndex, setEndIndex] = useState(Math.min(watchedShows.length, 6))
   const [translateX, setTranslateX] = useState(0)
 
   const previousDisabled = (startIndex === 0)
@@ -38,7 +38,7 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
           <div className="flex justify-start overflow-hidden w-10/12">
             {watchedShows.map((watchedShow) => {
               return(
-                <div className="width m-2 transition-transform duration-500 ease-in-out" style={{ transform: `translateX(${translateX}px)` }}>
+                <div className="width w-1/6 p-2 transition-transform duration-500 ease-in-out" style={{ transform: `translateX(${translateX}px)` }}>
                   <WatchedShowCard key={watchedShow.show.tmdbId} watchedShow={watchedShow} />
                 </div>
               )

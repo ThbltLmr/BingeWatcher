@@ -7,10 +7,10 @@ export default function WatchedShowCard({watchedShow}: {watchedShow: WatchedShow
   const showFinished = (watchedShow.watchedSeasons === show.numberOfSeasons);
 
   return(
-    <div className="w-80 p-2 flex flex-col justify-center align-middle relative">
-      <img className="rounded" key={show.tmdbId} src={show.posterUrl.value}></img>
+    <div className="w-full p-2 flex flex-col justify-center align-middle relative">
+      <img className="rounded w-full" key={show.tmdbId} src={show.posterUrl.value}></img>
       <div className="absolute bottom-0 w-full h-1/5 bg-white opacity-90 flex flex-col justify-center align-middle">
-        <h1 className="mx-auto text-center font-semibold text-xl">{show.title}</h1>
+        <h1 className="mx-auto text-center font-semibold text-lg">{show.title}</h1>
         {!showFinished &&
         <h2 className="mx-auto text-center text-lg">{watchedShow.watchedSeasons} / {show.numberOfSeasons} seasons watched</h2>}
         {showFinished &&
