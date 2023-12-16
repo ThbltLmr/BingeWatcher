@@ -1,5 +1,5 @@
 import { WatchedShow } from "../types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IconButton from '@mui/material/IconButton';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -9,9 +9,16 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
   const [startIndex, setStartIndex] = useState(0)
   const [endIndex, setEndIndex] = useState(Math.min(watchedShows.length, 6))
   const [translateX, setTranslateX] = useState(0)
+  const [carrouselShows, setCarrouselShows] = useState(watchedShows)
+
+  useEffect(() => {
+    setCarrouselShows(watchedShows);
+    setEndIndex(Math.min(watchedShows.length, 6));
+  }, [watchedShows]);
+
+  const originalLength = watchedShows.length
 
   const previousDisabled = (startIndex === 0)
-  const nextDisabled = (endIndex === watchedShows.length)
 
   const goToPrevious = () => {
     const cardWidth = document.querySelector(".width").firstChild.scrollWidth
@@ -21,10 +28,17 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
   }
 
   const goToNext = () => {
+    if (endIndex === carrouselShows.length) {
+      const newCarrouselShows = carrouselShows
+      newCarrouselShows.push(watchedShows[endIndex - originalLength]);
+      console.log(newCarrouselShows);
+      setCarrouselShows(newCarrouselShows);
+    }
     const cardWidth = document.querySelector(".width").firstChild.scrollWidth
     setStartIndex(startIndex + 1)
     setEndIndex(endIndex + 1)
     setTranslateX(translateX - cardWidth)
+    console.log(carrouselShows)
   }
 
   return(
@@ -36,7 +50,7 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
           </IconButton>
         </div>
           <div className="flex justify-start overflow-hidden w-10/12">
-            {watchedShows.map((watchedShow) => {
+            {carrouselShows.map((watchedShow) => {
               return(
                 <div className="width w-1/6 p-2 transition-transform duration-500 ease-in-out" style={{ transform: `translateX(${translateX}px)` }}>
                   <WatchedShowCard key={watchedShow.show.tmdbId} watchedShow={watchedShow} />
@@ -45,7 +59,7 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
             })}
           </div>
         <div className="flex w-1/12 align-center">
-          <IconButton aria-label="previous" size="large" onClick={goToNext} disabled={nextDisabled}>
+          <IconButton aria-label="previous" size="large" onClick={goToNext}>
             <ChevronRightIcon sx={{fontSize: 40}} />
           </IconButton>
         </div>
