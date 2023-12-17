@@ -16,12 +16,13 @@ export default function AddShow(){
 
   const inputRef = useRef(null);
 
-  useEffect(() => {
+  useEffect(() =>  {
     setAuth(localStorage.getItem('token') != null)
     if (!auth) {
-      navigate("/login");
+      navigate("/login")
     }
-  })
+  }, [])
+
 
   const updateSearchResults = async (e: any) => {
     fetch(`http://localhost:3000/tmdbapi/search?tv=${e.target.value}`)

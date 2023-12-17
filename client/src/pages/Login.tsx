@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import { login } from '../services/authService';
 import Navbar from "../components/Navbar";
@@ -7,12 +7,14 @@ import { useContext, useEffect } from "react";
 
 export default function Login(){
   const {auth, setAuth} = useContext(AuthenticationContext);
+  const navigate = useNavigate()
 
-  if (auth) {
-    return(
-      <Navigate to="/shows" />
-      )
+  useEffect(() => {
+    setAuth(localStorage.getItem('token') != null)
+    if (auth) {
+      navigate(-1)
     }
+  }, [])
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -21,6 +23,7 @@ export default function Login(){
     login(username, password)
     if (localStorage.getItem('token') !== null) {
       setAuth(true);
+      navigate("/shows")
   }}
 
   return(
