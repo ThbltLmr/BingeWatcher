@@ -38,15 +38,15 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
   }
 
   return(
-    <div className="m-0 p-0 w-screen">
+    <div className="m-0 p-0 w-full">
       <div className="flex relative w-full justify-between align-center">
-        <div className="flex w-1/12 align-center">
-          <IconButton aria-label="previous" size="large" onClick={goToPrevious} disabled={previousDisabled}>
+        <div className="flex w-1/12">
+          <IconButton aria-label="previous" size="large" onClick={goToPrevious} disabled={previousDisabled} sx={{flexGrow: 1}}>
             <ChevronLeftIcon sx={{fontSize: 40}} />
           </IconButton>
         </div>
           <div className="flex justify-start overflow-hidden w-10/12" ref={cardRef}>
-            {carrouselShows.map((watchedShow, i) => {
+            {carrouselShows.map((watchedShow) => {
               return(
                 <div key={watchedShow.show.tmdbId} className="w-1/6 p-2 transition-transform duration-500 ease-in-out" style={{ transform: `translateX(${translateX}px)` }}>
                   <WatchedShowCard watchedShow={watchedShow} />
@@ -54,8 +54,8 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
               )
             })}
           </div>
-        <div className="flex w-1/12 align-center">
-          <IconButton aria-label="previous" size="large" onClick={goToNext}>
+        <div className="flex w-1/12">
+          <IconButton aria-label="previous" size="large" onClick={goToNext} sx={{flexGrow: 1}}>
             <ChevronRightIcon sx={{fontSize: 40}} />
           </IconButton>
         </div>
