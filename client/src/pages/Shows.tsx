@@ -4,6 +4,8 @@ import Carrousel from "../components/Carrousel";
 import Typography from '@mui/material/Typography';
 import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext } from "../contexts/authContext";
+import { Button } from "@mui/material";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 export default function Shows(){
   const navigate = useNavigate();
@@ -43,13 +45,32 @@ export default function Shows(){
   return(
     <div>
       <Navbar />
-      <div className="w-100 pt-16 mb-8 ms-8">
-        <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Track all your favourite shows</Typography>
+      <div className="flex align-middle">
+        <div className="w-100 pt-16 mb-8 ms-8">
+          <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Currently watching</Typography>
+        </div>
+        <div className="ms-8 mb-9 w-1/6 self-end">
+          <Button onClick={navigateToAddShow} variant="contained" endIcon={<AddCircleOutlineIcon />}>
+              Add another show
+          </Button>
+        </div>
       </div>
       <div className="m-8">
         <Carrousel watchedShows={watchedShows} />
       </div>
-      <button onClick={navigateToAddShow} type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-light mx-2 text-3xl py-4 px-8 rounded">Add show</button>
+      <div className="flex align-middle">
+        <div className="w-100 pt-16 mb-8 ms-8">
+          <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Saved for later</Typography>
+        </div>
+        <div className="ms-8 mb-9 w-1/6 self-end">
+          <Button onClick={navigateToAddShow} variant="contained" endIcon={<AddCircleOutlineIcon />}>
+              Add another show
+          </Button>
+        </div>
+      </div>
+      <div className="w-100 pt-16 mb-8 ms-8">
+        <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Recommended for you</Typography>
+      </div>
     </div>
   )
 }
