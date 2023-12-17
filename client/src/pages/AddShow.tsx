@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Typography } from "@mui/material";
 import { AuthenticationContext } from "../contexts/authContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import ShowCard from "../components/ShowCard";
 import CenterPopUp from "../components/CenterPopUp";
 import { Show } from "../types";
@@ -13,6 +13,8 @@ export default function AddShow(){
   const [searchResults, setSearchResults] = useState([])
   const [showPopUp, setShowPopUp] = useState(false)
   const [selectedShow, setSelectedShow] = useState({})
+
+  const inputRef = useRef(null);
 
   useEffect(() => {
     setAuth(localStorage.getItem('token') != null)
@@ -42,8 +44,10 @@ export default function AddShow(){
   }
 
   const openPopUp = (e) => {
-    const currentShow = searchResults.find((show) => show.tmdbId == e.currentTarget.id)
+    const currentShow = searchResults.find((show: Show) => show.tmdbId == e.currentTarget.id)
     setSelectedShow(currentShow)
+    setSearchResults([])
+    if (inputRef.current) { inputRef.current.value = "" }
     setShowPopUp(true)
   }
 
@@ -57,7 +61,7 @@ export default function AddShow(){
         </div>
         <form className="ms-8">
           <label htmlFor="tv">Search</label>
-          <input type="text" onChange={updateSearchResults}/>
+          <input type="text" ref={inputRef} onChange={updateSearchResults}/>
         </form>
         <div className="flex flex-row flex-wrap ms-6">
           {searchResults.length > 0 &&
