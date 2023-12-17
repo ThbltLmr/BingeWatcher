@@ -62,7 +62,6 @@ export class TmdbApiMapper {
       `${this.tmdbAPIURL}/tv/${tmdbId}?api_key=${this.tmdbAPIKey}`,
     );
     const genres = response.data.genres.map((genre: any) => {
-      console.log(genre);
       return new Genre(genre.name);
     });
     return genres;

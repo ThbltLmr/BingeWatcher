@@ -1,29 +1,40 @@
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Typography } from "@mui/material";
 import { AuthenticationContext } from "../contexts/authContext";
-import { useContext, useState } from "react";
-import ShowCard from "../components/WatchedShowCard";
+import { useContext, useEffect, useState } from "react";
+import ShowCard from "../components/ShowCard";
 import CenterPopUp from "../components/CenterPopUp";
+import { Show } from "../types";
 
 export default function AddShow(){
+  const navigate = useNavigate()
   const {auth, setAuth} = useContext(AuthenticationContext);
   const [searchResults, setSearchResults] = useState([])
   const [showPopUp, setShowPopUp] = useState(false)
   const [selectedShow, setSelectedShow] = useState({})
 
+  useEffect(() => {
+    setAuth(localStorage.getItem('token') != null)
+    if (!auth) {
+      navigate("/login");
+    }
+  })
+
   const updateSearchResults = async (e: any) => {
     fetch(`http://localhost:3000/tmdbapi/search?tv=${e.target.value}`)
     .then(response => response.json())
     .then(data => {
-      const results = data.map((show: any) => {
+      const results = data.map((show: any): Show => {
         return {
-          title: show.name,
-          description: show.overview,
+          title: show.title,
+          description: show.description,
           posterUrl: show.posterUrl,
-          numberOfSeasons: show.number_of_seasons,
-          genres: show.genres,
-          tmdbId: show.id
+          numberOfSeasons: show.numberOfSeasons,
+          genres: show.genres.map((genre: {name: string}) => {
+            return genre.name;
+          }),
+          tmdbId: show.tmdbId
         }
       })
       setSearchResults(results)
@@ -31,34 +42,28 @@ export default function AddShow(){
   }
 
   const openPopUp = (e) => {
-    const currentShow = searchResults.find((show) => show.TMDBid == e.currentTarget.id)
+    const currentShow = searchResults.find((show) => show.tmdbId == e.currentTarget.id)
     setSelectedShow(currentShow)
     setShowPopUp(true)
   }
-
-  if (!auth) {
-    return(
-      <Navigate to="/login" />
-    )
-  }
-
-
 
   return(
     <div className="relative">
       <Navbar/>
       <div className="mb-6">
         {showPopUp && <CenterPopUp show={selectedShow} />}
-        <Typography variant="h1" component="div" sx={{ flexGrow: 1, fontSize: '4em' }}>Search shows</Typography>
-        <form>
+        <div className="w-100 pt-16 mb-8 ms-8">
+          <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Search shows</Typography>
+        </div>
+        <form className="ms-8">
           <label htmlFor="tv">Search</label>
           <input type="text" onChange={updateSearchResults}/>
         </form>
-        <div className="flex flex-row flex-wrap">
+        <div className="flex flex-row flex-wrap ms-6">
           {searchResults.length > 0 &&
-          searchResults.map((show) => (
-            <div id={show.TMDBid} className="w-92 m-2" onClick={openPopUp}>
-              <ShowCard key={show.TMDBid} show={show} />
+          searchResults.map((show: Show) => (
+            <div id={show.tmdbId.toString()} className="w-1/6 p-2" onClick={openPopUp}>
+              <ShowCard key={show.tmdbId} show={show} />
             </div>
           ))}
         </div>
