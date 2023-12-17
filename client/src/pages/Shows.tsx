@@ -11,6 +11,7 @@ export default function Shows(){
   const [watchedShows, setWatchedShows] = useState([]);
 
   useEffect(() => {
+    setAuth(localStorage.getItem('token') != null)
     if (!auth) {
       navigate("/login");
     }
@@ -32,7 +33,7 @@ export default function Shows(){
     .catch(err => {
       console.log(err);
     })
-  });
+  }, []);
 
   const navigateToAddShow = () => {
     navigate("/addshow");

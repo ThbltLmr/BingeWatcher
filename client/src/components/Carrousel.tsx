@@ -1,5 +1,5 @@
 import { WatchedShow } from "../types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import IconButton from '@mui/material/IconButton';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -10,41 +10,46 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
   const [endIndex, setEndIndex] = useState(Math.min(watchedShows.length -1, 6))
   const [translateX, setTranslateX] = useState(0)
   const [carrouselShows, setCarrouselShows] = useState(watchedShows)
+  const cardRef = useRef(null)
 
   useEffect(() => {
-    setCarrouselShows(watchedShows);
-    setEndIndex(Math.min(watchedShows.length, 6));
+    setEndIndex(Math.min(watchedShows.length, 6) - 1);
+    if (watchedShows.length > 6) { setCarrouselShows(watchedShows)}
+    if (watchedShows.length === 6) { setCarrouselShows((prevShows) => [...prevShows, ...watchedShows]); }
   }, [watchedShows]);
 
   const previousDisabled = (startIndex === 0)
 
   const goToPrevious = () => {
-    const cardWidth = document.querySelector(".width").firstChild.scrollWidth
+    const cardWidth = cardRef.current?.firstChild.scrollWidth || 0;
     setStartIndex(startIndex - 1)
     setEndIndex(endIndex - 1)
     setTranslateX(translateX + cardWidth)
   }
 
   const goToNext = () => {
-    const cardWidth = document.querySelector(".width").firstChild.scrollWidth
+    if (endIndex >= watchedShows.length - 2) {
+      setCarrouselShows((prevShows) => [...prevShows, ...watchedShows]);
+    }
+    const cardWidth = cardRef.current?.firstChild.scrollWidth || 0;
     setStartIndex(startIndex + 1)
     setEndIndex(endIndex + 1)
     setTranslateX(translateX - cardWidth)
   }
 
   return(
-    <div className="m-0 p-0">
+    <div className="m-0 p-0 w-screen">
       <div className="flex relative w-full justify-between align-center">
         <div className="flex w-1/12 align-center">
           <IconButton aria-label="previous" size="large" onClick={goToPrevious} disabled={previousDisabled}>
             <ChevronLeftIcon sx={{fontSize: 40}} />
           </IconButton>
         </div>
-          <div className="flex justify-start overflow-hidden w-10/12">
-            {carrouselShows.slice(startIndex, endIndex).map((watchedShow) => {
+          <div className="flex justify-start overflow-hidden w-10/12" ref={cardRef}>
+            {carrouselShows.map((watchedShow, i) => {
               return(
-                <div className="width w-1/6 p-2 transition-transform duration-500 ease-in-out" style={{ transform: `translateX(${translateX}px)` }}>
-                  <WatchedShowCard key={watchedShow.show.tmdbId} watchedShow={watchedShow} />
+                <div key={watchedShow.show.tmdbId} className="w-1/6 p-2 transition-transform duration-500 ease-in-out" style={{ transform: `translateX(${translateX}px)` }}>
+                  <WatchedShowCard watchedShow={watchedShow} />
                 </div>
               )
             })}
