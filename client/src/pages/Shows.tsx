@@ -1,22 +1,19 @@
-import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Carrousel from "../components/Carrousel";
 import Typography from '@mui/material/Typography';
-import { useContext, useEffect, useState } from "react";
-import { AuthenticationContext } from "../contexts/authContext";
+import { useEffect, useState } from "react";
+import { useAuth } from "../contexts/authContext";
 import { Button } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useNavigate } from "react-router-dom";
 
 export default function Shows(){
+  const { checkAuth } = useAuth();
   const navigate = useNavigate();
-  const {auth, setAuth} = useContext(AuthenticationContext);
   const [watchedShows, setWatchedShows] = useState([]);
 
   useEffect(() => {
-    setAuth(localStorage.getItem('token') != null)
-    if (!auth) {
-      navigate("/login");
-    }
+    checkAuth();
     const token = localStorage.getItem("token");
     fetch("http://localhost:3000/watchedshows", {
       method: "GET",

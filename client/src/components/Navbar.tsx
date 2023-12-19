@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -6,21 +6,29 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { logout } from '../services/authService';
-import { AuthenticationContext } from '../contexts/authContext';
 
 export default function Navbar() {
-  const {auth, setAuth} = useContext(AuthenticationContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false)
+  const [auth, setAuth] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setAuth(false);
+    }
+  }, [])
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
     setOpen(true);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
     setOpen(false)
@@ -29,11 +37,13 @@ export default function Navbar() {
   const handleCloseLogout = () => {
     handleClose();
     logout();
+    navigate("/");
     setAuth(false);
   };
 
   const navBarlogout = () => {
     logout();
+    navigate("/");
     setAuth(false);
   }
 

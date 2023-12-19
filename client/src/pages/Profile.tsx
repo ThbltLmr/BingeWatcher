@@ -1,15 +1,14 @@
-import { Navigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { AuthenticationContext } from "../contexts/authContext";
-import { useContext } from "react";
+import { useAuth } from "../contexts/authContext";
+import { useEffect } from "react";
 
 export default function Profile(){
-  const {auth, setAuth} = useContext(AuthenticationContext);
-  if (!auth) {
-    return(
-      <Navigate to="/login" />
-    )
-  }
+  const { checkAuth } = useAuth();
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
   return(
     <div>
       <Navbar />
