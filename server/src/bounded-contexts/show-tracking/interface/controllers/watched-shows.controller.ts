@@ -65,20 +65,8 @@ export class WatchedShowsController {
     const createWatchedShowCommand: CreateWatchedShowCommand = {
       user: userEntity,
       watchedSeasons: watchedShowData.numberOfSeasonsWatched,
-      show: new ShowEntity(),
+      show: await this.getShowEntityOrCreateIfNew(watchedShowData.tmdbId),
     };
-
-    if (await this.showExistsInDatabase(watchedShowData.tmdbId)) {
-      const showQuery = new GetShowByTmdbIdQuery();
-      showQuery.tmdbId = watchedShowData.tmdbId;
-      createWatchedShowCommand.show =
-        await this.showsRepository.findOneByTmdbId(showQuery);
-    } else {
-      const createShowCommand: CreateShowCommand =
-        await this.createShowCommandFromTmdbId(watchedShowData.tmdbId);
-      const showEntity = await this.showsRepository.create(createShowCommand);
-      createWatchedShowCommand.show = showEntity;
-    }
 
     return this.watchedShowsRepository.create(createWatchedShowCommand);
   }
@@ -116,6 +104,19 @@ export class WatchedShowsController {
     return watchedShow;
   }
 
+  private async getShowEntityOrCreateIfNew(
+    tmdbId: number,
+  ): Promise<ShowEntity> {
+    if (await this.showExistsInDatabase(tmdbId)) {
+      const showQuery = new GetShowByTmdbIdQuery();
+      showQuery.tmdbId = tmdbId;
+      return this.showsRepository.findOneByTmdbId(showQuery);
+    } else {
+      const createShowCommand: CreateShowCommand =
+        await this.createShowCommandFromTmdbId(tmdbId);
+      return this.showsRepository.create(createShowCommand);
+    }
+  }
   private async showExistsInDatabase(tmdbId: number) {
     const query = new GetShowByTmdbIdQuery();
     query.tmdbId = tmdbId;
