@@ -9,21 +9,21 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '../../../../shared-kernel/authentication/guards/auth.guard';
-import { WatchedShowsRepository } from '../../infrastructure/database/watched-shows.repository';
-import { WatchedShowDataDto } from '../dtos/watched-show-data.dto';
-import { ShowsRepository } from '../../infrastructure/database/shows.repository';
-import { CreateShowCommand } from '../../infrastructure/commands/create-show.command';
-import { TmdbApiAdapter } from '../../infrastructure/tmdb-api/shows.tmdbapi.adapter';
-import { CreateWatchedShowCommand } from '../../infrastructure/commands/create-watched-show.command';
 import { ShowEntity } from '../../domain/entities/show.entity';
-import { GetUserWatchedShowsQuery } from '../../infrastructure/queries/get-user-watched-shows.query';
-import { UpdateWatchedShowDto } from '../dtos/update-watched-show.dto';
-import { GetWatchedShowQuery } from '../../infrastructure/queries/get-watched-show.query';
+import { UsersRepository } from '../../infrastructure/database/users.repository';
+import { ShowsRepository } from '../../infrastructure/database/shows.repository';
+import { WatchedShowsRepository } from '../../infrastructure/database/watched-shows.repository';
+import { TmdbApiAdapter } from '../../infrastructure/tmdb-api/shows.tmdbapi.adapter';
+import { CreateShowCommand } from '../../infrastructure/commands/create-show.command';
+import { CreateWatchedShowCommand } from '../../infrastructure/commands/create-watched-show.command';
 import { UpdateWatchedShowCommand } from '../../infrastructure/commands/update-watched-show.command';
 import { DeleteWatchedShowCommand } from '../../infrastructure/commands/delete-watched-show.command';
+import { GetUserWatchedShowsQuery } from '../../infrastructure/queries/get-user-watched-shows.query';
+import { GetWatchedShowQuery } from '../../infrastructure/queries/get-watched-show.query';
 import { GetUserByIdQuery } from '../../infrastructure/queries/get-user-by-id.query';
-import { UsersRepository } from '../../infrastructure/database/users.repository';
 import { GetShowByTmdbIdQuery } from '../../infrastructure/queries/get-show-by-tmdbid.query';
+import { WatchedShowDataDto } from '../dtos/watched-show-data.dto';
+import { UpdateWatchedShowDto } from '../dtos/update-watched-show.dto';
 
 @Controller('watchedshows')
 export class WatchedShowsController {
