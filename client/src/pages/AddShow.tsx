@@ -11,6 +11,7 @@ export default function AddShow(){
   const [searchResults, setSearchResults] = useState([])
   const [showPopUp, setShowPopUp] = useState(false)
   const [selectedShow, setSelectedShow] = useState({})
+  const abortController = useRef(new AbortController());
 
   const inputRef = useRef(null);
 
@@ -20,7 +21,8 @@ export default function AddShow(){
 
 
   const updateSearchResults = async (e: any) => {
-    fetch(`http://localhost:3000/tmdbapi/search?tv=${e.target.value}`)
+    if (!abortController.current) { abortController.current = new AbortController() }
+    fetch(`http://localhost:3000/tmdbapi/search?tv=${e.target.value}`, {signal: abortController.current.signal})
     .then(response => response.json())
     .then(data => {
       const results = data.map((show: any): Show => {
@@ -40,6 +42,7 @@ export default function AddShow(){
   }
 
   const openPopUp = (e) => {
+    abortController.current.abort();
     const currentShow = searchResults.find((show: Show) => show.tmdbId == e.currentTarget.id)
     setSelectedShow(currentShow)
     setSearchResults([])
