@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './contexts/authContext'
 import {
   HomePage,
   Profile,
@@ -10,17 +11,20 @@ import {
 import './App.css'
 
 function App() {
+
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/addshow" element={<AddShow />} />
-          <Route path="/shows" element={<Shows />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/addshow" element={<AddShow />} />
+            <Route path="/shows" element={<Shows />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </>
   )
