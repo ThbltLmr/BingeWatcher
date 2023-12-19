@@ -1,12 +1,19 @@
 import Navbar from "../components/Navbar";
 import Typography from '@mui/material/Typography';
 import ExplanationCard from "../components/ExplanationCard";
-import { AuthenticationContext } from "../contexts/authContext";
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Homepage() {
-  const {auth, setAuth} = useContext(AuthenticationContext);
+  const [auth, setAuth] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setAuth(false);
+    }
+  }, [])
+
   const cardContents = [
     {
       title: "Track your favourite shows",

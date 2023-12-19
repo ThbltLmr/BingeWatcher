@@ -2,16 +2,13 @@ import { useNavigate } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import { login } from '../services/authService';
 import Navbar from "../components/Navbar";
-import { AuthenticationContext } from "../contexts/authContext";
 import { useContext, useEffect } from "react";
 
 export default function Login(){
-  const {auth, setAuth} = useContext(AuthenticationContext);
   const navigate = useNavigate()
 
   useEffect(() => {
-    setAuth(localStorage.getItem('token') != null)
-    if (auth) {
+    if (localStorage.getItem('token') !== null) {
       navigate(-1)
     }
   }, [])
@@ -22,7 +19,6 @@ export default function Login(){
     const password = e.currentTarget.password.value
     login(username, password)
     if (localStorage.getItem('token') !== null) {
-      setAuth(true);
       navigate("/shows")
   }}
 

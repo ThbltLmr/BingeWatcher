@@ -1,15 +1,13 @@
-import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { Typography } from "@mui/material";
-import { AuthenticationContext } from "../contexts/authContext";
-import { useContext, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import ShowCard from "../components/ShowCard";
 import CenterPopUp from "../components/CenterPopUp";
 import { Show } from "../types";
+import { useAuth } from "../contexts/authContext";
 
 export default function AddShow(){
-  const navigate = useNavigate()
-  const {auth, setAuth} = useContext(AuthenticationContext);
+  const { checkAuth } = useAuth();
   const [searchResults, setSearchResults] = useState([])
   const [showPopUp, setShowPopUp] = useState(false)
   const [selectedShow, setSelectedShow] = useState({})
@@ -17,10 +15,7 @@ export default function AddShow(){
   const inputRef = useRef(null);
 
   useEffect(() =>  {
-    setAuth(localStorage.getItem('token') != null)
-    if (!auth) {
-      navigate("/login")
-    }
+    checkAuth();
   }, [])
 
 
