@@ -22,7 +22,13 @@ export default function Shows(){
         "Authorization": `Bearer ${token}`
       }
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.status === 401) {
+        navigate("/login");
+      } else {
+        return res.json()
+      }
+    })
     .then(data => {
       const shows = data.map((watchedShow: any) => {
         return { show: watchedShow.show, watchedSeasons: watchedShow.seasonsWatched };
@@ -30,6 +36,7 @@ export default function Shows(){
       setWatchedShows(shows);
     })
     .catch(err => {
+      if (err.statu)
       console.log(err);
     })
   }, []);
