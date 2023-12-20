@@ -28,7 +28,7 @@ export default function CenterPopUp({show}: {show: Show}){
   return(
     <div className="absolute h-screen w-screen bg-black bg-opacity-70">
       <div className="absolute rounded mt-8 w-fit h-fit inset-x-1/2 inset-y-1/3 -translate-x-1/2 -translate-y-1/2 p-3 bg-slate-200">
-        <div className="flex flex-col m-2 w-96">
+        <div className="flex flex-col m-2 w-96 h-96">
           <ShowCard show={show} />
         </div>
         <div className="mt-4 mb-4">

@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
-import { Typography } from "@mui/material";
+import { InputAdornment, TextField, Typography } from "@mui/material";
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { useEffect, useState, useRef } from "react";
 import ShowCard from "../components/ShowCard";
 import CenterPopUp from "../components/CenterPopUp";
@@ -55,13 +56,20 @@ export default function AddShow(){
       <Navbar/>
       <div className="mb-6">
         {showPopUp && <CenterPopUp show={selectedShow} />}
-        <div className="w-100 pt-16 mb-8 ms-8">
+        <div className="w-full pt-16 mb-12 ms-8">
           <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Search shows</Typography>
         </div>
-        <form className="ms-8">
-          <label htmlFor="tv">Search</label>
-          <input type="text" ref={inputRef} onChange={updateSearchResults}/>
-        </form>
+        <div className="w-1/3">
+          <TextField id="outlined-basic" sx={{marginLeft: '2rem', width: '50%'}} ref={inputRef} onChange={updateSearchResults} variant="outlined"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchOutlinedIcon />
+              </InputAdornment>
+            ),
+          }}
+          />
+        </div>
         <div className="flex flex-row flex-wrap ms-6">
           {searchResults.length > 0 &&
           searchResults.map((show: Show) => (
