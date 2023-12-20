@@ -59,8 +59,8 @@ export default function AddShow(){
         <div className="w-full pt-16 mb-12 ms-8">
           <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Search shows</Typography>
         </div>
-        <div className="w-1/3">
-          <TextField id="outlined-basic" sx={{marginLeft: '2rem', width: '50%'}} ref={inputRef} onChange={updateSearchResults} variant="outlined"
+        <div className="w-1/3 mb-8">
+          <TextField id="outlined-basic" sx={{marginLeft: '2rem', width: '80%'}} ref={inputRef} onChange={updateSearchResults} variant="outlined"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
