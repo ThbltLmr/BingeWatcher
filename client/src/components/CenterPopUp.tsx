@@ -6,7 +6,7 @@ import Slider from '@mui/material/Slider';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from "react";
 
-export default function CenterPopUp({show}: {show: Show}){
+export default function CenterPopUp({show, setShowPopUp}: {show: Show, setShowPopUp: Function}){
 
   const [addButtonOpen, setAddButtonOpen] = useState(false);
   const [sliderOpen, setSliderOpen] = useState(false);
@@ -30,7 +30,7 @@ export default function CenterPopUp({show}: {show: Show}){
     <div className="absolute left-0 h-screen w-screen bg-black bg-opacity-70">
       <div className="absolute rounded mt-8 w-fit h-fit inset-x-1/2 inset-y-1/3 -translate-x-1/2 -translate-y-1/2 p-3 bg-slate-200">
         <div className="absolute top-0 right-0">
-        <IconButton aria-label="delete">
+        <IconButton aria-label="delete" onClick={() => {setShowPopUp(false)}}>
           <CloseIcon />
         </IconButton>
         </div>

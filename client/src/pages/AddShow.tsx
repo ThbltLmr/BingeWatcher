@@ -57,7 +57,7 @@ export default function AddShow(){
       <div className="mb-6 w-4/5 mx-auto flex flex-col align-middle text-center">
         {showPopUp &&
         <div className="z-10">
-          <CenterPopUp show={selectedShow} />
+          <CenterPopUp show={selectedShow} setShowPopUp={setShowPopUp} />
         </div>
         }
         <div className="w-full pt-16 mb-12">
