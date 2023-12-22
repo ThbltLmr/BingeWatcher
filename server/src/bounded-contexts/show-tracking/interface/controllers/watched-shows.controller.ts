@@ -58,7 +58,6 @@ export class WatchedShowsController {
     @Request() req,
     @Body() watchedShowData: WatchedShowDataDto,
   ) {
-    console.log(watchedShowData);
     const userQuery = new GetUserByIdQuery();
     userQuery.id = req.user.sub;
     const userEntity = await this.usersRepository.findOne(userQuery);

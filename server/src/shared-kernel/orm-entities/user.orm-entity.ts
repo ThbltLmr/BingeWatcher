@@ -16,8 +16,6 @@ export class UserOrmEntity {
   @Column()
   password: string;
 
-  @OneToMany(() => WatchedShowOrmEntity, (watchedShow) => watchedShow.show, {
-    cascade: true,
-  })
+  @OneToMany(() => WatchedShowOrmEntity, (watchedShow) => watchedShow.show)
   public watchedShows: WatchedShowOrmEntity[];
 }

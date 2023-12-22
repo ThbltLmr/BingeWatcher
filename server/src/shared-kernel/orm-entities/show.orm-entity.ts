@@ -24,8 +24,6 @@ export class ShowOrmEntity {
   @Column('text', { array: true, nullable: true })
   genres: string[];
 
-  @OneToMany(() => WatchedShowOrmEntity, (watchedShow) => watchedShow.show, {
-    cascade: true,
-  })
+  @OneToMany(() => WatchedShowOrmEntity, (watchedShow) => watchedShow.show)
   public watchedShows: WatchedShowOrmEntity[];
 }

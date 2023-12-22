@@ -10,9 +10,13 @@ export class WatchedShowOrmEntity {
   @Column()
   watchedSeasons: number;
 
-  @ManyToOne(() => UserOrmEntity, (user) => user.watchedShows)
+  @ManyToOne(() => UserOrmEntity, (user) => user.watchedShows, {
+    cascade: true,
+  })
   public user: UserOrmEntity;
 
-  @ManyToOne(() => ShowOrmEntity, (show) => show.watchedShows)
+  @ManyToOne(() => ShowOrmEntity, (show) => show.watchedShows, {
+    cascade: true,
+  })
   public show: ShowOrmEntity;
 }

@@ -60,7 +60,7 @@ export default function Shows(){
         </div>
       </div>
       <div className="m-8">
-        <Carrousel watchedShows={watchedShows.filter((watchedShow) => { return watchedShow.watchedSeasons > 0})} />
+        <Carrousel watchedShows={watchedShows.filter((watchedShow) => { return (watchedShow.watchedSeasons > 0 && watchedShow.watchedSeasons !== watchedShow.show.numberOfSeasons)})} />
       </div>
       <div className="flex align-middle">
         <div className="w-100 pt-16 mb-8 ms-8">
@@ -68,12 +68,20 @@ export default function Shows(){
         </div>
         <div className="ms-8 mb-9 w-1/6 self-end">
           <Button onClick={navigateToAddShow} variant="contained" endIcon={<AddCircleOutlineIcon />}>
-              Add another show
+              Add another show  
           </Button>
         </div>
       </div>
       <div className="m-8">
         <Carrousel watchedShows={watchedShows.filter((watchedShow) => { return watchedShow.watchedSeasons === 0})} />
+      </div>
+      <div className="flex align-middle">
+        <div className="w-100 pt-16 mb-8 ms-8">
+          <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Finished watching</Typography>
+        </div>
+      </div>
+      <div className="m-8">
+        <Carrousel watchedShows={watchedShows.filter((watchedShow) => { return watchedShow.watchedSeasons === watchedShow.show.numberOfSeasons})} />
       </div>
       <div className="w-100 pt-16 mb-8 ms-8">
         <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Recommended for you</Typography>
