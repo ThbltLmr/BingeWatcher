@@ -1,4 +1,5 @@
-import { Button, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { Button, FormControlLabel, IconButton, Radio, RadioGroup } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { Show } from "../types";
 import ShowCard from "./ShowCard";
 import Slider from '@mui/material/Slider';
@@ -26,9 +27,14 @@ export default function CenterPopUp({show}: {show: Show}){
   }
 
   return(
-    <div className="absolute h-screen w-screen bg-black bg-opacity-70">
+    <div className="absolute left-0 h-screen w-screen bg-black bg-opacity-70">
       <div className="absolute rounded mt-8 w-fit h-fit inset-x-1/2 inset-y-1/3 -translate-x-1/2 -translate-y-1/2 p-3 bg-slate-200">
-        <div className="flex flex-col m-2 w-96 h-96">
+        <div className="absolute top-0 right-0">
+        <IconButton aria-label="delete">
+          <CloseIcon />
+        </IconButton>
+        </div>
+        <div className="flex flex-col m-6 w-96 h-96">
           <ShowCard show={show} />
         </div>
         <div className="mt-4 mb-4">

@@ -54,13 +54,17 @@ export default function AddShow(){
   return(
     <div className="relative">
       <Navbar/>
-      <div className="mb-6">
-        {showPopUp && <CenterPopUp show={selectedShow} />}
-        <div className="w-full pt-16 mb-12 ms-8">
+      <div className="mb-6 w-4/5 mx-auto flex flex-col align-middle text-center">
+        {showPopUp &&
+        <div className="z-10">
+          <CenterPopUp show={selectedShow} />
+        </div>
+        }
+        <div className="w-full pt-16 mb-12">
           <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Search shows</Typography>
         </div>
-        <div className="w-1/3 mb-8">
-          <TextField id="outlined-basic" sx={{marginLeft: '2rem', width: '80%'}} ref={inputRef} onChange={updateSearchResults} variant="outlined"
+        <div className="w-1/3 mb-8 mx-auto z-0">
+          <TextField id="outlined-basic" sx={{marginLeft: '2rem', width: '80%', zIndex: '0'}} ref={inputRef} onChange={updateSearchResults} variant="outlined"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
