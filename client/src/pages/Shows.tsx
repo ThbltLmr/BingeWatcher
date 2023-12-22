@@ -11,6 +11,7 @@ export default function Shows(){
   const { checkAuth } = useAuth();
   const navigate = useNavigate();
   const [watchedShows, setWatchedShows] = useState([]);
+  const [savedShows, setSavedShows] = useState([]);
 
   useEffect(() => {
     checkAuth();
@@ -36,7 +37,6 @@ export default function Shows(){
       setWatchedShows(shows);
     })
     .catch(err => {
-      if (err.statu)
       console.log(err);
     })
   }, []);
@@ -60,7 +60,7 @@ export default function Shows(){
         </div>
       </div>
       <div className="m-8">
-        <Carrousel watchedShows={watchedShows} />
+        <Carrousel watchedShows={watchedShows.filter((watchedShow) => { return watchedShow.watchedSeasons > 0})} />
       </div>
       <div className="flex align-middle">
         <div className="w-100 pt-16 mb-8 ms-8">
@@ -71,6 +71,9 @@ export default function Shows(){
               Add another show
           </Button>
         </div>
+      </div>
+      <div className="m-8">
+        <Carrousel watchedShows={watchedShows.filter((watchedShow) => { return watchedShow.watchedSeasons === 0})} />
       </div>
       <div className="w-100 pt-16 mb-8 ms-8">
         <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>Recommended for you</Typography>

@@ -10,10 +10,12 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
   const [endIndex, setEndIndex] = useState(Math.min(watchedShows.length -1, 6))
   const [translateX, setTranslateX] = useState(0)
   const [carrouselShows, setCarrouselShows] = useState(watchedShows)
+  const [buttonsHidden, setButtonsHidden] = useState(false)
   const cardRef = useRef(null)
 
   useEffect(() => {
     setEndIndex(Math.min(watchedShows.length, 6) - 1);
+    if (watchedShows.length < 6) { setCarrouselShows(watchedShows), setButtonsHidden(true) }
     if (watchedShows.length > 6) { setCarrouselShows(watchedShows)}
     if (watchedShows.length === 6) { setCarrouselShows((prevShows) => [...prevShows, ...watchedShows]); }
   }, [watchedShows]);
@@ -41,7 +43,7 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
     <div className="m-0 p-0 w-full">
       <div className="flex relative w-full justify-between align-center">
         <div className="flex w-1/12">
-          <IconButton aria-label="previous" size="large" onClick={goToPrevious} disabled={previousDisabled} sx={{flexGrow: 1}}>
+          <IconButton aria-label="previous" size="large" onClick={goToPrevious} disabled={previousDisabled || buttonsHidden} sx={{flexGrow: 1}}>
             <ChevronLeftIcon sx={{fontSize: 40}} />
           </IconButton>
         </div>
@@ -55,7 +57,7 @@ export default function Carrousel({watchedShows}: {watchedShows: WatchedShow[]})
             })}
           </div>
         <div className="flex w-1/12">
-          <IconButton aria-label="previous" size="large" onClick={goToNext} sx={{flexGrow: 1}}>
+          <IconButton aria-label="previous" size="large" disabled={buttonsHidden} onClick={goToNext} sx={{flexGrow: 1}}>
             <ChevronRightIcon sx={{fontSize: 40}} />
           </IconButton>
         </div>
