@@ -5,11 +5,14 @@ import ShowCard from "./ShowCard";
 import Slider from '@mui/material/Slider';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CenterPopUp({show, setShowPopUp}: {show: Show, setShowPopUp: Function}){
 
   const [addButtonOpen, setAddButtonOpen] = useState(false);
   const [sliderOpen, setSliderOpen] = useState(false);
+  const [sliderValue, setSliderValue] = useState(0)
+  const navigate = useNavigate();
 
   function valuetext(value: number) {
     if (value === 1) return `${value} season`;
@@ -18,12 +21,36 @@ export default function CenterPopUp({show, setShowPopUp}: {show: Show, setShowPo
   }
 
   const handleStartedShow = () => {
+    setSliderValue(1);
     setAddButtonOpen(true);
     setSliderOpen(true);
   }
   const handleNotStartedShow = () => {
+    setSliderValue(0);
     setAddButtonOpen(true);
     setSliderOpen(false);
+  }
+
+  const handleAddShow = async () => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:3000/watchedshows/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        tmdbId: show.tmdbId,
+        numberOfSeasonsWatched: sliderValue,
+      })
+    }).then(res => {
+      if (res.ok) {
+        navigate("/shows")
+      } else {
+        setShowPopUp(false);
+        alert("Something went wrong, please try again")
+      }
+    })
   }
 
   return(
@@ -65,6 +92,7 @@ export default function CenterPopUp({show, setShowPopUp}: {show: Show, setShowPo
             marks={true}
             min={1}
             max={show.numberOfSeasons}
+            onChange={(e, newValue) => {setSliderValue(newValue)}}
             sx={{width: '80%', margin: 'auto'}}
             valueLabelFormat={(value) => valuetext(value)}
           />
@@ -73,7 +101,7 @@ export default function CenterPopUp({show, setShowPopUp}: {show: Show, setShowPo
         }
         {addButtonOpen &&
         <div className="flex flex-col align-middle">
-        <Button variant="contained" endIcon={<AddCircleOutlineIcon />} sx={{width: '80%', margin: 'auto'}}>
+        <Button variant="contained" endIcon={<AddCircleOutlineIcon />} sx={{width: '80%', margin: 'auto'}} onClick={handleAddShow}>
             Add this show
         </Button>
         </div>}
