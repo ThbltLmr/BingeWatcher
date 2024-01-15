@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import { login } from '../services/authService';
 import Navbar from "../components/Navbar";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function Login(){
   const navigate = useNavigate()
